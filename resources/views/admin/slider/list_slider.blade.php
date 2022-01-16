@@ -3,7 +3,7 @@
 <div class="table-agile-info">
   <div class="panel panel-default">
     <div class="panel-heading">
-      Liệt kê danh mục sản phẩm
+      Liệt kê Banner
     </div>
     <div class="row w3-res-tb">
       <!-- <div class="col-sm-5 m-b-xs">
@@ -43,45 +43,38 @@
                 <input type="checkbox"><i></i>
               </label>
             </th>
-            <th>Tên sản phẩm</th>
-            <th>Giá bán</th>
+            <th>Tên slide</th>
             <th>Hình ảnh</th>
-            <th>Danh mục sản phẩm</th>
-            <th>Thương hiệu</th>
+            <th>Mô tả</th>
             <th>Hiển thị</th>
             
             <th style="width:30px;"></th>
           </tr>
         </thead>
         <tbody>
-          @foreach($all_product as $key => $pro)
+          @foreach($all_slide as $key => $slide)
           <tr>
             <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
-            <td>{{ $pro->product_name }}</td>
-            <td>{{ $pro->product_price }}</td>
-            <td><img src="public/uploads/product/{{ $pro->product_image }}" height="100" width="120"></td>
-            <td>{{ $pro->category_name }}</td>
-            <td>{{ $pro->brand_name }}</td>
-
+            <td>{{ $slide->slider_name }}</td>
+            <td><img src="public/uploads/slider/{{ $slide->slider_image }}" height="100" width="200">{{ $slide->slider_image }}</td>
+            <td>{{ $slide->slider_desc }}</td>
             <td><span class="text-ellipsis">
               <?php
-                if($pro->product_status == 0) {
+                if($slide->slider_status == 0) {
               ?>
-                  <a href="{{URL::to('/active-product/'.$pro->product_id)}}"><span class="fa-thumb-styling fa fa-thumbs-down"></span></a>
+                  <a href="{{URL::to('/active-slide/'.$slide->slider_id)}}"><span class="fa-thumb-styling fa fa-thumbs-down"></span></a>
               <?php
                 } else {
               ?>
-                  <a href="{{URL::to('/unactive-product/'.$pro->product_id)}}"><span class="fa-thumb-styling fa fa-thumbs-up"></span></a>
+                  <a href="{{URL::to('/unactive-slide/'.$slide->slider_id)}}"><span class="fa-thumb-styling fa fa-thumbs-up"></span></a>
               <?php
                 }
               ?>
             </span></td>
             
             <td>
-              <a href="{{URL::to('/edit-product/'.$pro->product_id)}}" class="active styling-edit" ui-toggle-class="">
-                <i class="fa fa-pencil-square-o text-success text-active"></i>
-              </a>
-              <a onclick="return confirm('Bạn chắc chắn muốn xóa sản phẩm này?')" href="{{URL::to('/delete-product/'.$pro->product_id)}}" class="active styling-edit" ui-toggle-class="">  
+              
+              <a onclick="return confirm('Bạn chắc chắn muốn xóa slide này?')" href="{{URL::to('/delete-slider/'.$slide->slider_id)}}" class="active styling-edit" ui-toggle-class="">  
                 <i class="fa fa-times text-danger text"></i>
               </a>
             </td>

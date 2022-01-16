@@ -34,7 +34,7 @@
 					<div class="col-sm-6">
 						<div class="contactinfo">
 							<ul class="nav nav-pills">
-								<li><a href="#"><i class="fa fa-phone"></i> 09852xxxxx</a></li>
+								<li><a href="#"><i class="fa fa-phone"></i> HOTLINE: 09852xxxxx</a></li>
 								<li><a href="#"><i class="fa fa-envelope"></i> antran@gmail.com</a></li>
 							</ul>
 						</div>
@@ -59,9 +59,9 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a href="index.html"><img src="{{('public/frontend/images/logo.png')}}" alt="" /></a>
+							<a href="{{URL::to('/trang-chu')}}"><img src="{{('public/frontend/images/logoo.png')}}" width="359" height="69" alt="" /></a>
 						</div>
-						<div class="btn-group pull-right">
+						<!-- <div class="btn-group pull-right">
 							<div class="btn-group">
 								<button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
 									USA
@@ -83,12 +83,12 @@
 									<li><a href="#">Pound</a></li>
 								</ul>
 							</div>
-						</div>
+						</div> -->
 					</div>
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="#"><i class="fa fa-user"></i> Account</a></li>
+								<li><a href="#"><i class="fa fa-user"></i> Tài khoản</a></li>
 								<li><a href="#"><i class="fa fa-star"></i> Yêu thích</a></li>
 								<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
 								<li><a href="{{URL::to('/show-cart')}}"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
@@ -115,13 +115,13 @@
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
 								<li><a href="{{URL::to('/trang-chu')}}" class="active">Trang chủ</a></li>
-								<li class="dropdown"><a href="#">Sản phẩm<i class="fa fa-angle-down"></i></a>
+								<li class="dropdown"><a href="#">Danh mục<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
                                         <li><a href="shop.html">Products</a></li>
 										
                                     </ul>
                                 </li> 
-								<li class="dropdown"><a href="#">Tin tức<i class="fa fa-angle-down"></i></a>
+								<li class="dropdown"><a href="#">Tin tức</a>
                                     
                                 </li> 
 								<li><a href="{{URL::to('/show-cart')}}">Giỏ hàng</a></li>
@@ -131,7 +131,8 @@
 					</div>
 					<div class="col-sm-3">
 						<div class="search_box pull-right">
-							<input type="text" placeholder="Search"/>
+							<img src="{{('public/frontend/images/searchicon.png')}}" width="20" alt="" />
+							<input type="text" placeholder="Tìm kiếm"/>
 						</div>
 					</div>
 				</div>
@@ -149,21 +150,29 @@
 							<li data-target="#slider-carousel" data-slide-to="1"></li>
 							<li data-target="#slider-carousel" data-slide-to="2"></li>
 						</ol>
-						
+
+						<style type="text/css">
+                            img.img.img-responsive.img-slider {
+                                height: 370px;
+								/* padding-right: 75px; */
+								margin-left: -50px;
+                            }
+                        </style>
 						<div class="carousel-inner">
-							<div class="item active">
-								<div class="col-sm-6">
-									<h1><span>E</span>-SHOPPER</h1>
-									<h2>Free E-Commerce Template</h2>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-									<button type="button" class="btn btn-default get">Get it now</button>
-								</div>
-								<div class="col-sm-6">
-									<img src="{{('public/frontend/images/girl1.jpg')}}" class="girl img-responsive" alt="" />
-									<img src="{{('public/frontend/images/pricing.png')}}"  class="pricing" alt="" />
+						<?php
+							$i = 0;
+						?>
+						@foreach($slider as $key => $slide)
+							<?php $i++; ?>
+							<div class="item {{$i==1 ? 'active' : '' }}">
+								<div class="col-sm-12">
+									<img alt="{{$slide->slider_desc}}" src="public/uploads/slider/{{ $slide->slider_image }}" width="100%" class="img img-responsive img-slider">
+									
 								</div>
 							</div>
-							<div class="item">
+						@endforeach
+						
+							<!-- <div class="item">
 								<div class="col-sm-6">
 									<h1><span>E</span>-SHOPPER</h1>
 									<h2>100% Responsive Design</h2>
@@ -187,7 +196,7 @@
 									<img src="{{('public/frontend/images/girl3.jpg')}}" class="girl img-responsive" alt="" />
 									<img src="{{('public/frontend/images/pricing.png')}}" class="pricing" alt="" />
 								</div>
-							</div>
+							</div> -->
 							
 						</div>
 						
@@ -257,7 +266,7 @@
 	</section>
 	
 	<footer id="footer"><!--Footer-->
-		<div class="footer-top">
+		<!-- <div class="footer-top">
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-2">
@@ -335,12 +344,12 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 		
 		<div class="footer-widget">
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-2">
+					<!-- <div class="col-sm-2">
 						<div class="single-widget">
 							<h2>Service</h2>
 							<ul class="nav nav-pills nav-stacked">
@@ -351,7 +360,7 @@
 								<li><a href="#">FAQ’s</a></li>
 							</ul>
 						</div>
-					</div>
+					</div> -->
 					<div class="col-sm-2">
 						<div class="single-widget">
 							<h2>Quock Shop</h2>
@@ -378,7 +387,7 @@
 					</div>
 					<div class="col-sm-2">
 						<div class="single-widget">
-							<h2>About Shopper</h2>
+							<h2>About Us</h2>
 							<ul class="nav nav-pills nav-stacked">
 								<li><a href="#">Company Information</a></li>
 								<li><a href="#">Careers</a></li>
@@ -390,12 +399,13 @@
 					</div>
 					<div class="col-sm-3 col-sm-offset-1">
 						<div class="single-widget">
-							<h2>About Shopper</h2>
+						<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.1131663032347!2d105.80211910060017!3d21.028157472333213!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab424a50fff9%3A0xbe3a7f3670c0a45f!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBHaWFvIHRow7RuZyBW4bqtbiB04bqjaQ!5e0!3m2!1svi!2s!4v1642262366636!5m2!1svi!2s" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+							<!-- <h2>About Shopper</h2>
 							<form action="#" class="searchform">
 								<input type="text" placeholder="Your email address" />
 								<button type="submit" class="btn btn-default"><i class="fa fa-arrow-circle-o-right"></i></button>
 								<p>Get the most recent updates from <br />our site and be updated your self...</p>
-							</form>
+							</form> -->
 						</div>
 					</div>
 					
@@ -406,8 +416,8 @@
 		<div class="footer-bottom">
 			<div class="container">
 				<div class="row">
-					<p class="pull-left">Copyright © 2013 E-SHOPPER Inc. All rights reserved.</p>
-					<p class="pull-right">Designed by <span><a target="_blank" href="http://www.themeum.com">Themeum</a></span></p>
+					<!-- <p class="pull-left">Copyright © 2013 E-SHOPPER Inc. All rights reserved.</p> -->
+					<p class="pull-right"> Visit me <span><a target="_blank" href="https://www.facebook.com/profile.php?id=100012935530972">Tran Huu An</a></span></p>
 				</div>
 			</div>
 		</div>

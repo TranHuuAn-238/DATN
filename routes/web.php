@@ -7,6 +7,8 @@ use App\Http\Controllers\CategoryProduct;
 use App\Http\Controllers\BrandProduct;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\SliderController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -89,3 +91,12 @@ Route::post('/add-cart-ajax', [CartController::class, 'add_cart_ajax']);
 Route::get('/show-cart', [CartController::class, 'show_cart']);
 Route::get('/del-product/{session_id}', [CartController::class, 'delete_product']);
 Route::get('/del-all-product', [CartController::class, 'delete_all_product']);
+
+
+// banner
+Route::get('/manage-slider', [SliderController::class, 'manage_slider']);
+Route::get('/add-slider', [SliderController::class, 'add_slider']);
+Route::post('/insert-slider', [SliderController::class, 'insert_slider']);
+Route::get('/unactive-slide/{slide_id}', [SliderController::class, 'unactive_slide']);
+Route::get('/active-slide/{slide_id}', [SliderController::class, 'active_slide']);
+Route::get('/delete-slider/{slider_id}', [SliderController::class, 'delete_slider']);
