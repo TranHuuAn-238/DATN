@@ -12,9 +12,9 @@
 								  <!-- Wrapper for slides -->
 								    <div class="carousel-inner">
 										<div class="item active">
-										  <a href=""><img src="{{URL::to('/public/frontend/images/similar1.jpg')}}" alt=""></a>
+										  <!-- <a href=""><img src="{{URL::to('/public/frontend/images/similar1.jpg')}}" alt=""></a>
 										  <a href=""><img src="{{URL::to('/public/frontend/images/similar2.jpg')}}" alt=""></a>
-										  <a href=""><img src="{{URL::to('/public/frontend/images/similar3.jpg')}}" alt=""></a>
+										  <a href=""><img src="{{URL::to('/public/frontend/images/similar3.jpg')}}" alt=""></a> -->
 										</div>
 										
 										
@@ -137,12 +137,13 @@
 							<div class="tab-pane fade" id="reviews" >
 								<div class="col-sm-12">
 									<ul>
-										<li><a href=""><i class="fa fa-user"></i>EUGEN</a></li>
-										<li><a href=""><i class="fa fa-clock-o"></i>12:41 PM</a></li>
-										<li><a href=""><i class="fa fa-calendar-o"></i>31 DEC 2014</a></li>
+										<li><a href=""><i class="fa fa-user"></i>User Name</a></li>
+										<?php date_default_timezone_set('Asia/Ho_Chi_Minh'); ?>
+										<li><a href=""><i class="fa fa-clock-o"></i><?= date('h:i a', time()); ?></a></li>
+										<li><a href=""><i class="fa fa-calendar-o"></i><?= date('d-M-Y', time()); ?></a></li>
 									</ul>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-									<p><b>Write Your Review</b></p>
+									<p>Hãy đánh giá sản phẩm để giúp những khách hàng khác chọn được sản phẩm tốt nhất!</p>
+									<p><b>Viết đánh giá của bạn</b></p>
 									
 									<form action="#">
 										<span>
@@ -150,9 +151,9 @@
 											<input type="email" placeholder="Email Address"/>
 										</span>
 										<textarea name="" ></textarea>
-										<b>Rating: </b> <img src="images/product-details/rating.png" alt="" />
+										<b>Bạn cảm thấy sản phẩm này như thế nào? (chọn sao nhé): </b> <img src="{{asset('public/frontend/images/rating.png')}}" alt="" />
 										<button type="button" class="btn btn-default pull-right">
-											Submit
+											Đánh giá
 										</button>
 									</form>
 								</div>

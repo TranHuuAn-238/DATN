@@ -74,7 +74,7 @@
             
             <td>
               
-              <a onclick="return confirm('Bạn chắc chắn muốn xóa slide này?')" href="{{URL::to('/delete-slider/'.$slide->slider_id)}}" class="active styling-edit" ui-toggle-class="">  
+              <a onclick="return confirm('Bạn chắc chắn muốn xóa slide có tên {{ $slide->slider_name }}?')" href="{{URL::to('/delete-slider/'.$slide->slider_id)}}" class="active styling-edit" ui-toggle-class="">  
                 <i class="fa fa-times text-danger text"></i>
               </a>
             </td>

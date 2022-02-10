@@ -13,10 +13,13 @@
 
                 <div class="single-products">
                         <div class="productinfo text-center">
+
                             <img src="{{URL::to('public/uploads/product/'.$product->product_image)}}" alt="" height="200" width="150" />
                             <h2>{{number_format($product->product_price).' VNĐ'}}</h2>
                             <p>{{$product->product_name}}</p>
-                            <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ</a>
+                            <!-- <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ</a> -->
+                            <input type="button" value="Thêm vào giỏ" class="btn btn-default add-to-cart" data-id_product="{{$product->product_id}}" name="add-to-cart">
+                        
                         </div>
                        
                 </div>

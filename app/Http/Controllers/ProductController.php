@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB; // sử dụng database
+use App\Models\Slider;
 use Session;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Redirect;
@@ -126,6 +127,9 @@ class ProductController extends Controller
     // end admin page
 
     public function details_product($product_id) {
+        //slide
+        $slider = Slider::orderBy('slider_id','DESC')->where('slider_status','1')->take(4)->get();
+
         $cate_product = DB::table('tbl_category_product')->where('category_status','1')->orderby('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand')->where('brand_status','1')->orderby('brand_id','desc')->get();
         $details_product = DB::table('tbl_product')
@@ -142,6 +146,6 @@ class ProductController extends Controller
         ->join('tbl_brand','tbl_brand.brand_id','=','tbl_product.brand_id')
         ->where('tbl_category_product.category_id',$category_id)->whereNotIn('tbl_product.product_id',[$product_id])->get();
 
-        return view('pages.prod.show_details')->with('category',$cate_product)->with('brand',$brand_product)->with('product_details',$details_product)->with('relate',$related_product);
+        return view('pages.prod.show_details')->with('category',$cate_product)->with('brand',$brand_product)->with('product_details',$details_product)->with('relate',$related_product)->with('slider',$slider);
     }
 }

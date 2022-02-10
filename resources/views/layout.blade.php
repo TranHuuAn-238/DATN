@@ -4,7 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="author" content="Huu An">
+	<meta name="keywords" content=""/>
+
     <title>Shop Xe Đạp</title>
     <link href="{{asset('public/frontend/css/font-awesome.min.css')}}" rel="stylesheet">
     <link href="{{asset('public/frontend/css/bootstrap.min.css')}}" rel="stylesheet">
@@ -19,7 +21,7 @@
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
     <![endif]-->       
-    <link rel="shortcut icon" href="{{('public/frontend/images/favicon.ico')}}">
+    <link rel="shortcut icon" href="{{('public/frontend/images/xedaptabbar.ico')}}">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{('public/frontend/images/apple-touch-icon-144-precomposed.png')}}">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{('public/frontend/images/apple-touch-icon-114-precomposed.png')}}">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{('public/frontend/images/apple-touch-icon-72-precomposed.png')}}">
@@ -59,7 +61,7 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a href="{{URL::to('/trang-chu')}}"><img src="{{('public/frontend/images/logoo.png')}}" width="359" height="69" alt="" /></a>
+							<a href="{{URL::to('/trang-chu')}}"><img src="{{asset('public/frontend/images/logoo.png')}}" width="359" height="69" alt="logo" /></a>
 						</div>
 						<!-- <div class="btn-group pull-right">
 							<div class="btn-group">
@@ -117,7 +119,10 @@
 								<li><a href="{{URL::to('/trang-chu')}}" class="active">Trang chủ</a></li>
 								<li class="dropdown"><a href="#">Danh mục<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a href="shop.html">Products</a></li>
+							
+									@foreach($category as $key => $cate)						
+										<li><a href="{{URL::to('/danh-muc-san-pham/'.$cate->category_id)}}">{{$cate->category_name}}</a></li>						
+									@endforeach
 										
                                     </ul>
                                 </li> 
@@ -131,7 +136,7 @@
 					</div>
 					<div class="col-sm-3">
 						<div class="search_box pull-right">
-							<img src="{{('public/frontend/images/searchicon.png')}}" width="20" alt="" />
+							<img src="{{asset('public/frontend/images/searchicon.png')}}" width="20" alt="" />
 							<input type="text" placeholder="Tìm kiếm"/>
 						</div>
 					</div>
@@ -166,7 +171,7 @@
 							<?php $i++; ?>
 							<div class="item {{$i==1 ? 'active' : '' }}">
 								<div class="col-sm-12">
-									<img alt="{{$slide->slider_desc}}" src="public/uploads/slider/{{ $slide->slider_image }}" width="100%" class="img img-responsive img-slider">
+									<img alt="{{$slide->slider_desc}}" src="{{asset('public/uploads/slider/'.$slide->slider_image)}}" width="100%" class="img img-responsive img-slider">
 									
 								</div>
 							</div>
@@ -235,24 +240,12 @@
 							<div class="brands-name">
 								<ul class="nav nav-pills nav-stacked">
 									@foreach($brand as $key => $brand)
-									<li><a href="{{URL::to('/thuong-hieu-san-pham/'.$brand->brand_id)}}"> <span class="pull-right">(50)</span>{{$brand->brand_name}}</a></li>
+									<li><a href="{{URL::to('/thuong-hieu-san-pham/'.$brand->brand_id)}}"> <span class="pull-right">(20)</span>{{$brand->brand_name}}</a></li>
 									@endforeach
 								</ul>
 							</div>
 						</div><!--/brands_products-->
-						<!--price-range-->
-						<!-- <div class="price-range">
-							<h2>Price Range</h2>
-							<div class="well text-center">
-								 <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]" id="sl2" ><br />
-								 <b class="pull-left">$ 0</b> <b class="pull-right">$ 600</b>
-							</div>
-						</div> -->
-						<!--/price-range--> <!--shipping-->
-						<!-- <div class="shipping text-center">
-							<img src="{{('public/frontend/images/shipping.jpg')}}" alt="" />
-						</div> -->
-						<!--/shipping-->
+						
 					</div>
 				</div>
 				
@@ -363,37 +356,36 @@
 					</div> -->
 					<div class="col-sm-2">
 						<div class="single-widget">
-							<h2>Quock Shop</h2>
+							<h2>Thông tin</h2>
 							<ul class="nav nav-pills nav-stacked">
-								<li><a href="#">T-Shirt</a></li>
-								<li><a href="#">Mens</a></li>
-								<li><a href="#">Womens</a></li>
-								<li><a href="#">Gift Cards</a></li>
-								<li><a href="#">Shoes</a></li>
+								<li><a href="#">Giới thiệu về chúng tôi</a></li>
+								<li><a href="#">Tin tức</a></li>
+								<li><a href="#">Tuyển dụng</a></li>
+
 							</ul>
 						</div>
 					</div>
 					<div class="col-sm-2">
 						<div class="single-widget">
-							<h2>Policies</h2>
+							<h2>Dịch vụ hậu mãi</h2>
 							<ul class="nav nav-pills nav-stacked">
-								<li><a href="#">Terms of Use</a></li>
-								<li><a href="#">Privecy Policy</a></li>
-								<li><a href="#">Refund Policy</a></li>
-								<li><a href="#">Billing System</a></li>
-								<li><a href="#">Ticket System</a></li>
+								<li><a href="#">Chính sách bảo hành</a></li>
+								<li><a href="#">Chính sách bảo mật</a></li>
+								<li><a href="#">Chính sách đổi trả</a></li>
+								<li><a href="#">Hình thức thanh toán</a></li>
+
 							</ul>
 						</div>
 					</div>
-					<div class="col-sm-2">
+					<div class="col-sm-3">
 						<div class="single-widget">
-							<h2>About Us</h2>
+							<h2>Tổng đài hỗ trợ (Miễn phí gọi)</h2>
 							<ul class="nav nav-pills nav-stacked">
-								<li><a href="#">Company Information</a></li>
-								<li><a href="#">Careers</a></li>
-								<li><a href="#">Store Location</a></li>
-								<li><a href="#">Affillate Program</a></li>
-								<li><a href="#">Copyright</a></li>
+								<li>Gọi mua: 1800.1061 (7:30 - 22:00)</li>
+								<li>Kỹ thuật: 1800.1764 (7:30 - 22:00)</li>
+								<li>Khiếu nại: 1800.1063 (8:00 - 21:30)</li>
+								<li>Bảo hành: 1800.1065 (8:00 - 21:00)</li>
+
 							</ul>
 						</div>
 					</div>
@@ -415,8 +407,8 @@
 		
 		<div class="footer-bottom">
 			<div class="container">
-				<div class="row">
-					<!-- <p class="pull-left">Copyright © 2013 E-SHOPPER Inc. All rights reserved.</p> -->
+				<div class="row" >
+					<p class="pull-left">Copyright © 2022. <b>Công ty cổ phần Đồ Án</b> <br> Địa chỉ: Số 3 Đ. Cầu Giấy, Láng Thượng, Đống Đa, Hà Nội, Việt Nam</p>
 					<p class="pull-right"> Visit me <span><a target="_blank" href="https://www.facebook.com/profile.php?id=100012935530972">Tran Huu An</a></span></p>
 				</div>
 			</div>
