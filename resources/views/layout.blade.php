@@ -21,11 +21,8 @@
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
     <![endif]-->       
-    <link rel="shortcut icon" href="{{('public/frontend/images/xedaptabbar.ico')}}">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{('public/frontend/images/apple-touch-icon-144-precomposed.png')}}">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{('public/frontend/images/apple-touch-icon-114-precomposed.png')}}">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{('public/frontend/images/apple-touch-icon-72-precomposed.png')}}">
-    <link rel="apple-touch-icon-precomposed" href="{{('public/frontend/images/apple-touch-icon-57-precomposed.png')}}">
+    <link rel="shortcut icon" href="{{asset('public/frontend/images/xedaptabbar.ico')}}">
+   
 </head><!--/head-->
 
 <body>
@@ -90,11 +87,49 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="#"><i class="fa fa-user"></i> Tài khoản</a></li>
+								
+								<?php
+									$customer_name = Session::get('customer_name');							
+									if($customer_name != null) {
+								?>
+								<li><a href="#"><i class="fa fa-user"></i> {{$customer_name}}</a></li>
+								<?php
+									}
+								?>
+
 								<li><a href="#"><i class="fa fa-star"></i> Yêu thích</a></li>
-								<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
+
+								<?php
+									$customer_id = Session::get('customer_id');
+									$shipping_id = Session::get('shipping_id');
+									if($customer_id != null && $shipping_id == null) {
+								?>
+								<li><a href="{{URL::to('/checkout')}}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
+								<?php
+									} elseif($customer_id != null && $shipping_id != null) {
+								?>
+								<li><a href="{{URL::to('/payment')}}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
+								<?php
+									} else {
+								?>
+								<li><a href="{{URL::to('/login-checkout')}}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
+								<?php
+									}
+								?>
+
 								<li><a href="{{URL::to('/show-cart')}}"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
-								<li><a href="login.html"><i class="fa fa-lock"></i> Đăng nhập</a></li>
+								<?php
+									$customer_id = Session::get('customer_id');
+									if($customer_id != null) {
+								?>
+								<li><a href="{{URL::to('/logout-checkout')}}"><i class="fa fa-lock"></i> Đăng xuất</a></li>
+								<?php
+									} else {
+								?>
+								<li><a href="{{URL::to('/login-checkout')}}"><i class="fa fa-lock"></i> Đăng nhập</a></li>
+								<?php
+									}
+								?>
 							</ul>
 						</div>
 					</div>
@@ -105,7 +140,7 @@
 		<div class="header-bottom"><!--header-bottom-->
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-9">
+					<div class="col-sm-8">
 						<div class="navbar-header">
 							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 								<span class="sr-only">Toggle navigation</span>
@@ -134,11 +169,14 @@
 							</ul>
 						</div>
 					</div>
-					<div class="col-sm-3">
-						<div class="search_box pull-right">
-							<img src="{{asset('public/frontend/images/searchicon.png')}}" width="20" alt="" />
-							<input type="text" placeholder="Tìm kiếm"/>
-						</div>
+					<div class="col-sm-4">
+						<form action="{{URL::to('/tim-kiem')}}" method="post">
+							{{csrf_field()}}
+							<div class="search_box pull-right">
+								<input type="text" name="keywords_submit" placeholder="Tìm kiếm sản phẩm..."/>
+								<button type="submit" style="margin-top: 0;" name="search_items" class="btn btn-secondary btn-sm"><img src="{{asset('public/frontend/images/searchicon.png')}}" width="20" height="23" alt="" /></button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
@@ -408,7 +446,7 @@
 		<div class="footer-bottom">
 			<div class="container">
 				<div class="row" >
-					<p class="pull-left">Copyright © 2022. <b>Công ty cổ phần Đồ Án</b> <br> Địa chỉ: Số 3 Đ. Cầu Giấy, Láng Thượng, Đống Đa, Hà Nội, Việt Nam</p>
+					<p class="pull-left">Copyright © 2022. <b>Công ty cổ phần một thành viên Hữu An</b> <br> Địa chỉ: Số 3 Đ. Cầu Giấy, Láng Thượng, Đống Đa, Hà Nội, Việt Nam</p>
 					<p class="pull-right"> Visit me <span><a target="_blank" href="https://www.facebook.com/profile.php?id=100012935530972">Tran Huu An</a></span></p>
 				</div>
 			</div>

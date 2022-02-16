@@ -1,23 +1,20 @@
 @extends('layout')
 @section('content')
+
 <section id="cart_items">
 		<div class="container">
 			<div class="breadcrumbs">
 				<ol class="breadcrumb">
 				  <li><a href="{{URL::to('/')}}">Trang chủ</a></li>
-				  <li class="active">Giỏ hàng của bạn</li>
+				  <li class="active">Thanh toán</li>
 				</ol>
+			</div><!--/breadcrums-->
+
+			
+			<div class="review-payment">
+				<h2>Giỏ hàng của bạn</h2>
 			</div>
-				@if(session()->has('message'))
-					<div class="alert alert-success">
-						{{ session()->get('message') }}
-					</div>
-				@elseif(session()->has('error'))
-					<div class="alert alert-danger">
-						{{ session()->get('error') }}
-					</div>
-				@endif
-			<div class="table-responsive cart_info" style="width: 1055px;">
+            <div class="table-responsive cart_info" style="width: 1055px;">
 			<form action="{{url('/update-cart')}}" method="POST">
 				@csrf
 				<table class="table table-condensed">
@@ -56,7 +53,7 @@
 								<div class="cart_quantity_button">
 									
 								
-									<input class="cart_quantity" type="number" min="1" name="cart_qty[{{$cart['session_id']}}]" value="{{$cart['product_qty']}}"  >
+									<input class="cart_quantity" type="number" min="1" name="cart_qty[{{$cart['session_id']}}]" value="{{$cart['product_qty']}}" disabled >
 									<!-- <input type="hidden" value="" name="rowId_cart" class="form-control"> -->
 								
 								</div>
@@ -67,40 +64,18 @@
 							
 								</p>
 							</td>
-							<td class="cart_delete">
-								<a class="cart_quantity_delete" href="{{url('/del-product/'.$cart['session_id'])}}"><i class="fa fa-times"></i></a>
-							</td>
+							
 						</tr>
 						
 						@endforeach
 						<tr>
-							<td><input type="submit" value="Cập nhật giỏ hàng" name="update_qty" class="check_out btn btn-default btn-sm"></td>
-							<td><a class="btn btn-default check_out" href="{{url('/del-all-product')}}">Xóa giỏ hàng</a></td>
+							
 							<td>
 								<li>Tổng tiền: <span>{{number_format($total,0,',','.')}} VNĐ</span></li>
 								<li>Thuế <span></span></li>
 								<li>Phí vận chuyển <span>Free</span></li>
 								<li>Thành tiền sau giảm <span></span></li>
-								<td>
-									<?php
-										$customer_id = Session::get('customer_id');
-										$shipping_id = Session::get('shipping_id');
-										if($customer_id != null && $shipping_id == null) {
-									?>
-									<li><a href="{{URL::to('/checkout')}}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
-									<?php
-										} elseif($customer_id != null && $shipping_id != null) {
-									?>
-									<li><a href="{{URL::to('/payment')}}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
-									<?php
-										} else {
-									?>
-									<li><a href="{{URL::to('/login-checkout')}}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
-									<?php
-										}
-									?>
-									
-								</td>
+								
 							</td>
 						</tr>
 						@else
@@ -118,32 +93,24 @@
 				</table>
 				
 			</div>
+            <h4 style="margin: 40px; font-size: 20px;">Chọn hình thức thanh toán</h4>
+            <form action="{{URL::to('/order-place')}}" method="post">
+                {{ csrf_field() }}
+			<div class="payment-options">
+					<span>
+						<label><input name="payment_option" value="1" type="checkbox"> Thanh toán bằng thẻ</label>
+					</span>
+					<span>
+						<label><input name="payment_option" value="2" type="checkbox"> Thanh toán khi nhận hàng</label>
+					</span>
+					<!-- <span>
+						<label><input type="checkbox"> Paypal</label>
+					</span> -->
+                    
+			</div>
+                    <input type="submit" value="Đặt hàng" name="send_order_place" class="btn btn-primary btn-sm">
+            </form>
 		</div>
 	</section> <!--/#cart_items-->
 
-	<!-- <section id="do_action">
-		<div class="container">
-		
-			<div class="row">
-			
-				<div class="col-sm-6">
-					<div class="total_area">
-						<ul>
-							
-							<li>Thuế <span></span></li>
-							<li>Phí vận chuyển <span>Free</span></li>
-							<li>Thành tiền sau giảm <span></span></li>
-						</ul>
-					
-                                <a class="btn btn-default check_out" href="#">Thanh toán</a>
-                               
-  
-							
-
-					</div>
-				</div>
-			</div>
-		</div>
-	</section> -->
-	<!--/#do_action-->
 @endsection

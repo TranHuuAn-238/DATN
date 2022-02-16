@@ -8,6 +8,7 @@ use App\Http\Controllers\BrandProduct;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\SliderController;
+use App\Http\Controllers\CheckoutController;
 
 
 /*
@@ -34,6 +35,7 @@ use App\Http\Controllers\SliderController;
 Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/trang-chu', [HomeController::class, 'index']);
+Route::post('/tim-kiem', [HomeController::class, 'search']);
 
 // danh mục sản phẩm trang chủ
 Route::get('/danh-muc-san-pham/{category_id}', [CategoryProduct::class, 'show_category_home']);
@@ -92,6 +94,19 @@ Route::get('/show-cart', [CartController::class, 'show_cart']);
 Route::get('/del-product/{session_id}', [CartController::class, 'delete_product']);
 Route::get('/del-all-product', [CartController::class, 'delete_all_product']);
 
+// checkout
+Route::get('/login-checkout', [CheckoutController::class, 'login_checkout']);
+Route::get('/logout-checkout', [CheckoutController::class, 'logout_checkout']);
+Route::post('/add-customer', [CheckoutController::class, 'add_customer']);
+Route::post('/order-place', [CheckoutController::class, 'order_place']);
+Route::post('/login-customer', [CheckoutController::class, 'login_customer']);
+Route::get('/checkout', [CheckoutController::class, 'checkout']);
+Route::get('/payment', [CheckoutController::class, 'payment']);
+Route::post('/save-checkout-customer', [CheckoutController::class, 'save_checkout_customer']);
+
+// order
+Route::get('/manage-order', [CheckoutController::class, 'manage_order']);
+Route::get('/view-order/{orderId}', [CheckoutController::class, 'view_order']);
 
 // banner
 Route::get('/manage-slider', [SliderController::class, 'manage_slider']);

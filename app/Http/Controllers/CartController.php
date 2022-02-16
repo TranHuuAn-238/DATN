@@ -14,18 +14,16 @@ session_start();
 class CartController extends Controller
 {
     public function show_cart(Request $request) {
-        //seo 
         //slide
         $slider = Slider::orderBy('slider_id','DESC')->where('slider_status','1')->take(4)->get();
 
-        $meta_desc = "Giỏ hàng của bạn"; 
-        $meta_keywords = "Giỏ hàng";
-        $meta_title = "Giỏ hàng";
-        $url_canonical = $request->url();
+        // $meta_desc = "Giỏ hàng của bạn"; 
+        // $meta_keywords = "Giỏ hàng";
+        // $meta_title = "Giỏ hàng";
         //--seo
         $cate_product = DB::table('tbl_category_product')->where('category_status','1')->orderby('category_id','desc')->get(); 
         $brand_product = DB::table('tbl_brand')->where('brand_status','1')->orderby('brand_id','desc')->get(); 
-        return view('pages.cart.show_cart')->with('category',$cate_product)->with('brand',$brand_product)->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical)->with('slider',$slider);
+        return view('pages.cart.show_cart')->with('category',$cate_product)->with('brand',$brand_product)->with('slider',$slider);
     }
     public function delete_product($session_id) {
         // lấy session giỏ hàng
@@ -66,7 +64,8 @@ class CartController extends Controller
         $cart = Session::get('cart');
         if($cart == true) {
             //Session::destroy();
-            Session::forget('cart');
+            Session::forget('cart'); // xóa session cart
+            Session::forget('shipping_id'); // xóa luôn session thông tin nhận hàng
             return redirect()->back()->with('message','Đã xóa giỏ hàng');
         }
     }
@@ -109,6 +108,9 @@ class CartController extends Controller
         Session::save(); // save giỏ hàng
     }
     public function save_cart(Request $request) {
+        //slide
+        $slider = Slider::orderBy('slider_id','DESC')->where('slider_status','1')->take(4)->get();
+
         $cate_product = DB::table('tbl_category_product')->where('category_status','1')->orderby('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand')->where('brand_status','1')->orderby('brand_id','desc')->get();
 
@@ -117,7 +119,7 @@ class CartController extends Controller
         $quantity = $request->qty; // số lượng trong giỏ hàng
         $data = DB::table('tbl_product')->where('product_id',$productId)->get();
         
-        return view('pages.cart.show_cart')->with('category',$cate_product)->with('brand',$brand_product);
+        return view('pages.cart.show_cart')->with('category',$cate_product)->with('brand',$brand_product)->with('slider',$slider);
         // $productId = $request->productid_hidden;
         // $quantity = $request->qty;
         // $product_info = DB::table('tbl_product')->where('product_id',$productId)->first(); 

@@ -39,12 +39,17 @@
 
 								<form action="{{URL::to('/save-cart')}}" method="post">
 									{{ csrf_field() }}
+									<input type="hidden" value="{{$value->product_id}}" class="cart_product_id_{{$value->product_id}}">
+									<input type="hidden" value="{{$value->product_name}}" class="cart_product_name_{{$value->product_id}}">
+									<input type="hidden" value="{{$value->product_image}}" class="cart_product_image_{{$value->product_id}}">
+									<input type="hidden" value="{{$value->product_price}}" class="cart_product_price_{{$value->product_id}}">
+									<input type="hidden" value="1" class="cart_product_qty_{{$value->product_id}}">
 								<span>
 									<span>{{number_format($value->product_price) . ' VNĐ'}}</span>
-									<label>Quantity:</label>
-									<input name="qty" type="number" min="1" value="1" />
+									<!-- <label>Số lượng:</label> -->
+									<input name="qty" type="hidden" min="1" value="1" disabled/>
 									<input name="productid_hidden" type="hidden" value="{{$value->product_id}}" />
-									<button type="submit" class="btn btn-fefault cart">
+									<button type="button" class="btn btn-fefault cart add-to-cart" data-id_product="{{$value->product_id}}" name="add-to-cart">
 										<i class="fa fa-shopping-cart"></i>
 										Thêm vào giỏ
 									</button>
