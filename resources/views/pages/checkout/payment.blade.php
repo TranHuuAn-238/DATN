@@ -12,7 +12,7 @@
 
 			
 			<div class="review-payment">
-				<h2>Giỏ hàng của bạn</h2>
+				<h2><b>Xác nhận thanh toán</b></h2>
 			</div>
             <div class="table-responsive cart_info" style="width: 1055px;">
 			<form action="{{url('/update-cart')}}" method="POST">
@@ -20,12 +20,12 @@
 				<table class="table table-condensed">
 					<thead>
 						<tr class="cart_menu">
-							<td class="image">Hình ảnh</td>
-							<td class="description">Sản phẩm</td>
-							<td class="price">Giá</td>
-							<td class="quantity">Số lượng</td>
-							<td class="total">Thành tiền</td>
-							<td></td>
+							<td class="image" style="width: 17%">Hình ảnh</td>
+							<td class="description" style="width: 25%">Sản phẩm</td>
+							<td class="price" style="width: 18%">Đơn giá</td>
+							<td class="quantity" style="width: 15%">Số lượng</td>
+							<td class="total" style="width: 22%">Thành tiền</td>
+							<td style="width: 3%"></td>
 						</tr>
 					</thead>
 					<tbody>
@@ -53,7 +53,7 @@
 								<div class="cart_quantity_button">
 									
 								
-									<input class="cart_quantity" type="number" min="1" name="cart_qty[{{$cart['session_id']}}]" value="{{$cart['product_qty']}}" disabled >
+									<input class="cart_quantity" type="number" min="1" name="cart_qty[{{$cart['session_id']}}]" value="{{$cart['product_qty']}}"  style="width: 75%" disabled >
 									<!-- <input type="hidden" value="" name="rowId_cart" class="form-control"> -->
 								
 								</div>
@@ -70,12 +70,14 @@
 						@endforeach
 						<tr>
 							
-							<td>
+							<td colspan="2" class="total_area">
+								<ul>
 								<li>Tổng tiền: <span>{{number_format($total,0,',','.')}} VNĐ</span></li>
 								<li>Thuế <span></span></li>
 								<li>Phí vận chuyển <span>Free</span></li>
 								<li>Thành tiền sau giảm <span></span></li>
 								
+								</ul>
 							</td>
 						</tr>
 						@else
@@ -108,7 +110,7 @@
 					</span> -->
                     
 			</div>
-                    <input type="submit" value="Đặt hàng" name="send_order_place" class="btn btn-primary btn-sm">
+                    <input type="submit" value="Đặt hàng" name="send_order_place" class="btn btn-primary btn-sm" style="margin-top: -175px;">
             </form>
 		</div>
 	</section> <!--/#cart_items-->

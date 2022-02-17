@@ -23,12 +23,12 @@
 				<table class="table table-condensed">
 					<thead>
 						<tr class="cart_menu">
-							<td class="image">Hình ảnh</td>
-							<td class="description">Sản phẩm</td>
-							<td class="price">Giá</td>
-							<td class="quantity">Số lượng</td>
-							<td class="total">Thành tiền</td>
-							<td></td>
+							<td class="image" style="width: 17%">Hình ảnh</td>
+							<td class="description" style="width: 25%">Sản phẩm</td>
+							<td class="price" style="width: 18%">Đơn giá</td>
+							<td class="quantity" style="width: 15%">Số lượng</td>
+							<td class="total" style="width: 22%">Thành tiền</td>
+							<td style="width: 3%"></td>
 						</tr>
 					</thead>
 					<tbody>
@@ -56,7 +56,7 @@
 								<div class="cart_quantity_button">
 									
 								
-									<input class="cart_quantity" type="number" min="1" name="cart_qty[{{$cart['session_id']}}]" value="{{$cart['product_qty']}}"  >
+									<input class="cart_quantity" type="number" min="1" name="cart_qty[{{$cart['session_id']}}]" value="{{$cart['product_qty']}}"  style="width: 75%">
 									<!-- <input type="hidden" value="" name="rowId_cart" class="form-control"> -->
 								
 								</div>
@@ -74,9 +74,16 @@
 						
 						@endforeach
 						<tr>
-							<td><input type="submit" value="Cập nhật giỏ hàng" name="update_qty" class="check_out btn btn-default btn-sm"></td>
+							<td><input type="submit" value="Cập nhật giỏ hàng" name="update_qty" class="check_out btn btn-default"></td>
 							<td><a class="btn btn-default check_out" href="{{url('/del-all-product')}}">Xóa giỏ hàng</a></td>
-							<td>
+							
+						</tr>
+
+						<tr>
+						
+							<td colspan="2" class="total_area">
+							<ul>
+
 								<li>Tổng tiền: <span>{{number_format($total,0,',','.')}} VNĐ</span></li>
 								<li>Thuế <span></span></li>
 								<li>Phí vận chuyển <span>Free</span></li>
@@ -87,21 +94,27 @@
 										$shipping_id = Session::get('shipping_id');
 										if($customer_id != null && $shipping_id == null) {
 									?>
-									<li><a href="{{URL::to('/checkout')}}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
+									<a class="btn btn-default check_out" href="{{URL::to('/checkout')}}"> Thanh toán</a>
 									<?php
 										} elseif($customer_id != null && $shipping_id != null) {
 									?>
-									<li><a href="{{URL::to('/payment')}}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
+									<a class="btn btn-default check_out" href="{{URL::to('/payment')}}"> Thanh toán</a>
 									<?php
 										} else {
 									?>
-									<li><a href="{{URL::to('/login-checkout')}}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
+									<a class="btn btn-default check_out" href="{{URL::to('/login-checkout')}}"> Thanh toán</a>
 									<?php
 										}
 									?>
-									
+							
 								</td>
+							</ul>
+			
+							<!-- <a class="btn btn-default check_out" href="#">Thanh toán</a> -->
+							
+
 							</td>
+								
 						</tr>
 						@else
 						<tr>

@@ -50,7 +50,7 @@
 					</div> -->
 					<div class="col-sm-12 clearfix">
 						<div class="bill-to">
-							<p>Thông tin nhận hàng</p>
+							<p><b>Thông tin nhận hàng</b></p>
 							<div class="form-one">
 								<form action="{{URL::to('/save-checkout-customer')}}" method="post">
 									{{ csrf_field() }}

@@ -92,7 +92,7 @@
 									$customer_name = Session::get('customer_name');							
 									if($customer_name != null) {
 								?>
-								<li><a href="#"><i class="fa fa-user"></i> {{$customer_name}}</a></li>
+								<li><a href="#" style="color: #DC143C; font-weight: bold;"><i class="fa fa-user"></i> {{$customer_name}}</a></li>
 								<?php
 									}
 								?>
@@ -262,12 +262,12 @@
 				<div class="col-sm-3">
 					<div class="left-sidebar">
 						<h2>Danh mục sản phẩm</h2>
-						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
+						<div class="panel-group category-products" id="accordian" style="border-color: #DEB887"><!--category-productsr-->
 							@foreach($category as $key => $cate)
 							
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h4 class="panel-title"><a href="{{URL::to('/danh-muc-san-pham/'.$cate->category_id)}}">{{$cate->category_name}}</a></a></h4>
+									<h4 class="panel-title" style="text-align: center;"><a href="{{URL::to('/danh-muc-san-pham/'.$cate->category_id)}}">{{$cate->category_name}}</a></a></h4>
 								</div>
 							</div>
 							@endforeach
@@ -275,10 +275,10 @@
 					
 						<div class="brands_products"><!--brands_products-->
 							<h2>Thương hiệu</h2>
-							<div class="brands-name">
-								<ul class="nav nav-pills nav-stacked">
+							<div class="brands-name" style="border-color: #DEB887;">
+								<ul class="nav nav-pills nav-stacked" style="text-align: center; font-weight: bold;">
 									@foreach($brand as $key => $brand)
-									<li><a href="{{URL::to('/thuong-hieu-san-pham/'.$brand->brand_id)}}"> <span class="pull-right">(20)</span>{{$brand->brand_name}}</a></li>
+									<li><a href="{{URL::to('/thuong-hieu-san-pham/'.$brand->brand_id)}}"> {{$brand->brand_name}}</a></li>
 									@endforeach
 								</ul>
 							</div>
