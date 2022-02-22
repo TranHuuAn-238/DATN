@@ -171,4 +171,8 @@
         </div>
     </div> -->
     <!--/recommended_items-->
+
+    <div class="col-sm-7 text-right text-center-xs">                
+      <span> {{ $all_product->links("pagination::bootstrap-4") }} </span>
+    </div>
 @endsection

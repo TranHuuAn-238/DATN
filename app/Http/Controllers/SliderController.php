@@ -21,7 +21,7 @@ class SliderController extends Controller
         }
     }
     public function manage_slider() {
-        $all_slide = Slider::orderBy('slider_id' ,'DESC')->get(); // slide thêm sau mới nhất lên đầu
+        $all_slide = Slider::orderBy('slider_id' ,'DESC')->paginate(10); // slide thêm sau mới nhất lên đầu
         return view('admin.slider.list_slider')->with(compact('all_slide'));
     }
     public function add_slider() {

@@ -26,7 +26,7 @@ class HomeController extends Controller
         // ->join('tbl_brand','tbl_brand.brand_id','=','tbl_product.brand_id')
         // ->orderby('tbl_product.product_id','desc')->get();
 
-        $all_product = DB::table('tbl_product')->where('product_status','1')->orderby('product_id','desc')->limit(4)->get(); // limit(4) lấy 4 sản phẩm
+        $all_product = DB::table('tbl_product')->where('product_status','1')->orderby('product_id','desc')->limit(4)->paginate(9); // limit(4) lấy 4 sản phẩm
 
         return view('pages.home')->with('category',$cate_product)->with('brand',$brand_product)->with('all_product',$all_product)->with('slider',$slider);
     }
@@ -49,6 +49,6 @@ class HomeController extends Controller
 
         $search_product = DB::table('tbl_product')->where('product_name', 'like', '%' . $keywords . '%')->get(); // limit(4) lấy 4 sản phẩm
  
-        return view('pages.prod.search')->with('category',$cate_product)->with('brand',$brand_product)->with('slider',$slider)->with('search_product',$search_product);
+        return view('pages.prod.search')->with('category',$cate_product)->with('brand',$brand_product)->with('slider',$slider)->with('search_product',$search_product)->with('keywords',$keywords);
     }
 }

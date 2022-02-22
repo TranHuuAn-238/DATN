@@ -152,7 +152,7 @@
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
 								<li><a href="{{URL::to('/trang-chu')}}" class="active">Trang chủ</a></li>
-								<li class="dropdown"><a href="#">Danh mục<i class="fa fa-angle-down"></i></a>
+								<li class="dropdown"><a href="#">Sản phẩm<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
 							
 									@foreach($category as $key => $cate)						
@@ -164,7 +164,8 @@
 								<li class="dropdown"><a href="#">Tin tức</a>
                                     
                                 </li> 
-								<li><a href="{{URL::to('/show-cart')}}">Giỏ hàng</a></li>
+								<li><a href="#">Khuyến mãi</a></li>
+								<li><a href="#">Dịch vụ</a></li>
 								<li><a href="contact-us.html">Liên hệ</a></li>
 							</ul>
 						</div>
@@ -497,6 +498,12 @@
 				});
 			});
 		});
+	</script>
+
+	<script type="text/javascript">
+		function muahangpopup() {
+			swal("Thành công!", "Đơn hàng của bạn đã được đặt!", "success");
+		}
 	</script>
 
 </body>

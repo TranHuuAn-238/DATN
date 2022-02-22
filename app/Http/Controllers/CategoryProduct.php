@@ -29,7 +29,7 @@ class CategoryProduct extends Controller
 
     public function all_category_product() {
         $this->AuthLogin();
-        $all_category_product = DB::table('tbl_category_product')->get(); // lấy dl từ csdl
+        $all_category_product = DB::table('tbl_category_product')->paginate(10); // lấy dl từ csdl
         $manager_category_product = view('admin.all_category_product')->with('all_category_product',$all_category_product); // 'all_category_product' sẽ chứa dl để in ra ở view
         //return view('admin.all_category_product');
         return view('admin_layout')->with('admin.all_category_product', $manager_category_product);

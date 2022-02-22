@@ -30,7 +30,7 @@
 			</div> -->
 
 			<div class="register-req">
-				<p>Tạo tài khoản và đăng nhập để thanh toán giỏ hàng của bạn và xem lại lịch sử mua hàng</p>
+				<p><i>Tạo tài khoản và đăng nhập để thanh toán giỏ hàng của bạn và xem lại lịch sử mua hàng</i></p>
 			</div><!--/register-req-->
 
 			<div class="shopper-informations">
@@ -54,11 +54,16 @@
 							<div class="form-one">
 								<form action="{{URL::to('/save-checkout-customer')}}" method="post">
 									{{ csrf_field() }}
-									<input type="text" name="shipping_email" placeholder="Email">
+									<label for=""><b>Họ và tên <span style="color: red;">*</span></b></label>
 									<input type="text" name="shipping_name" placeholder="Tên khách nhận hàng">
+									<label for=""><b>Địa chỉ email <span style="color: red;">*</span></b></label>
+									<input type="text" name="shipping_email" placeholder="Email">
+									<label for=""><b>Địa chỉ nhận hàng <span style="color: red;">*</span></b></label>
 									<input type="text" name="shipping_address" placeholder="Địa chỉ">
+									<label for=""><b>Số điện thoại <span style="color: red;">*</span></b></label>
 									<input type="text" name="shipping_phone" placeholder="Số điện thoại">
-									<textarea name="shipping_notes" placeholder="Thêm lời nhắn cho đơn hàng của bạn" rows="16"></textarea>
+									<label for=""><b>Ghi chú đơn hàng (tuỳ chọn) </b></label>
+									<textarea name="shipping_notes" placeholder="Ghi chú về đơn hàng, ví dụ: thời gian hay chỉ dẫn địa điểm giao hàng chi tiết hơn" rows="16"></textarea>
 									<input type="submit" value="Xác nhận" name="send_order" class="btn btn-primary btn-sm">
 								</form>
 							</div>
