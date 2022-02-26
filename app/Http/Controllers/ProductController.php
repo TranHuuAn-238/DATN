@@ -137,15 +137,16 @@ class ProductController extends Controller
         ->join('tbl_brand','tbl_brand.brand_id','=','tbl_product.brand_id')
         ->where('tbl_product.product_id',$product_id)->get();
 
-        // sản phẩm liên quan gợi ý - cùng danh mục - loại trừ sản phẩm đang xem thì ko cần gợi ý, for nhưng chỉ có 1 sp
+        // sản phẩm liên quan gợi ý - cùng danh mục - loại trừ sản phẩm đang xem thì ko cần gợi ý, for nhưng chỉ có 1 sp do dùng get()
         foreach($details_product as $k => $val) {
             $category_id = $val->category_id;
+            $meta_title = $val->product_name; // seo
         }
         $related_product = DB::table('tbl_product')
         ->join('tbl_category_product','tbl_category_product.category_id','=','tbl_product.category_id')
         ->join('tbl_brand','tbl_brand.brand_id','=','tbl_product.brand_id')
         ->where('tbl_category_product.category_id',$category_id)->whereNotIn('tbl_product.product_id',[$product_id])->get();
 
-        return view('pages.prod.show_details')->with('category',$cate_product)->with('brand',$brand_product)->with('product_details',$details_product)->with('relate',$related_product)->with('slider',$slider);
+        return view('pages.prod.show_details')->with('category',$cate_product)->with('brand',$brand_product)->with('product_details',$details_product)->with('relate',$related_product)->with('slider',$slider)->with('meta_title',$meta_title);
     }
 }

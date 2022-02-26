@@ -7,7 +7,7 @@
     <meta name="author" content="Huu An">
 	<meta name="keywords" content=""/>
 
-    <title>Shop Xe Đạp</title>
+    <title><?php if(isset($meta_title)) { ?> {{$meta_title}} <?php } else { ?> Shop Xe Đạp Hữu An <?php } ?></title>
     <link href="{{asset('public/frontend/css/font-awesome.min.css')}}" rel="stylesheet">
     <link href="{{asset('public/frontend/css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('public/frontend/css/prettyPhoto.css')}}" rel="stylesheet">
@@ -25,7 +25,7 @@
    
 </head><!--/head-->
 
-<body>
+<body onload="muahangpopup()">
 	<header id="header"><!--header-->
 		<div class="header_top"><!--header_top-->
 			<div class="container">
@@ -93,6 +93,15 @@
 									if($customer_name != null) {
 								?>
 								<li><a href="#" style="color: #DC143C; font-weight: bold;"><i class="fa fa-user"></i> {{$customer_name}}</a></li>
+								<?php
+									}
+								?>
+
+								<?php
+									$customer_id = Session::get('customer_id');
+									if($customer_id != null) {
+								?>
+								<li><a href="{{URL::to('/history')}}"><i class="fa fa-bars"></i> Lịch sử đặt hàng</a></li>
 								<?php
 									}
 								?>
@@ -502,7 +511,10 @@
 
 	<script type="text/javascript">
 		function muahangpopup() {
-			swal("Thành công!", "Đơn hàng của bạn đã được đặt!", "success");
+			let getId = document.getElementById('showpopup');
+			if(getId) {
+				swal("Thành công!", "Đơn hàng của bạn đã được đặt!", "success");
+			}		
 		}
 	</script>
 

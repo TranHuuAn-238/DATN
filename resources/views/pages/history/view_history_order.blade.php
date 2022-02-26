@@ -1,9 +1,9 @@
-@extends('admin_layout')
-@section('admin_content')
+@extends('layout')
+@section('content')
 <div class="table-agile-info">
   <div class="panel panel-default">
-    <div class="panel-heading">
-      Thông tin khách đặt hàng
+    <div class="panel-heading" style="text-align: center; text-transform: uppercase;">
+      Chi tiết đơn đặt hàng
     </div>
    
     <div class="table-responsive">
@@ -23,7 +23,7 @@
             <th>Số điện thoại liên hệ</th>
 
             
-            <th style="width:30px;"></th>
+            
           </tr>
         </thead>
         <tbody>
@@ -48,8 +48,8 @@
 
 <div class="table-agile-info">
   <div class="panel panel-default">
-    <div class="panel-heading">
-      Thông tin vận chuyển
+    <div class="panel-heading" style="text-align: center; text-transform: uppercase;">
+      Thông tin nhận hàng
     </div>
    
     <div class="table-responsive">
@@ -70,7 +70,7 @@
             <th>SĐT liên hệ</th>
 
             
-            <th style="width:30px;"></th>
+        
           </tr>
         </thead>
         <tbody>
@@ -95,7 +95,7 @@
 
 <div class="table-agile-info">
   <div class="panel panel-default">
-    <div class="panel-heading">
+    <div class="panel-heading" style="text-align: center; text-transform: uppercase;">
       Liệt kê chi tiết đơn đặt hàng
     </div>
     <div class="row w3-res-tb">
@@ -137,14 +137,14 @@
             <th>Giá</th>
             <th>Tổng đơn</th>
             
-            <th style="width:30px;"></th>
+            
           </tr>
         </thead>
         <tbody>
          
         @foreach($order_by_id as $key => $value_content)
           <tr>        
-            <td>{{$key + 1}}</td>
+            <td>{{$key+1}}</td>
             <td>{{ $value_content->product_name }}</td>
             <td>{{ $value_content->product_sales_quantity }}</td>
             <td>{{ $value_content->product_price }}</td>

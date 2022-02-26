@@ -23,13 +23,15 @@ class CheckoutController extends Controller
 
 
     public function login_checkout() {
+        $meta_title = "Đăng nhập";
+
         // lấy slide
         $slider = Slider::orderBy('slider_id','desc')->where('slider_status', '1')->take(4)->get();
 
         // lấy danh mục và thương hiệu sp vào layout
         $cate_product = DB::table('tbl_category_product')->where('category_status','1')->orderby('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand')->where('brand_status','1')->orderby('brand_id','desc')->get();
-        return view('pages.checkout.login_checkout')->with('category',$cate_product)->with('brand',$brand_product)->with('slider',$slider);
+        return view('pages.checkout.login_checkout')->with('category',$cate_product)->with('brand',$brand_product)->with('slider',$slider)->with('meta_title',$meta_title);
     }
 
     public function add_customer(Request $request) {
@@ -48,13 +50,15 @@ class CheckoutController extends Controller
     }
 
     public function checkout() {
+        $meta_title = "Thông tin nhận hàng";
+
         // lấy slide
         $slider = Slider::orderBy('slider_id','desc')->where('slider_status', '1')->take(4)->get();
 
         // lấy danh mục và thương hiệu sp vào layout
         $cate_product = DB::table('tbl_category_product')->where('category_status','1')->orderby('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand')->where('brand_status','1')->orderby('brand_id','desc')->get();
-        return view('pages.checkout.show_checkout')->with('category',$cate_product)->with('brand',$brand_product)->with('slider',$slider);
+        return view('pages.checkout.show_checkout')->with('category',$cate_product)->with('brand',$brand_product)->with('slider',$slider)->with('meta_title',$meta_title);
     }
 
     public function save_checkout_customer(Request $request) {
@@ -73,16 +77,22 @@ class CheckoutController extends Controller
     }
 
     public function payment() {
+        $meta_title = "Xác nhận thanh toán";
+
         // lấy slide
         $slider = Slider::orderBy('slider_id','desc')->where('slider_status', '1')->take(4)->get();
 
         // lấy danh mục và thương hiệu sp vào layout
         $cate_product = DB::table('tbl_category_product')->where('category_status','1')->orderby('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand')->where('brand_status','1')->orderby('brand_id','desc')->get();
-        return view('pages.checkout.payment')->with('category',$cate_product)->with('brand',$brand_product)->with('slider',$slider);
+        return view('pages.checkout.payment')->with('category',$cate_product)->with('brand',$brand_product)->with('slider',$slider)->with('meta_title',$meta_title);
     }
 
     public function order_place(Request $request) {
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+
+        $meta_title = "Đặt hàng thành công";
+
         // thanh toán cuối cùng
         // lấy slide
         $slider = Slider::orderBy('slider_id','desc')->where('slider_status', '1')->take(4)->get();
@@ -112,6 +122,7 @@ class CheckoutController extends Controller
         $order_data['payment_id'] = $payment_id;
         $order_data['order_total'] = $total;
         $order_data['order_status'] = 'Đang chờ xử lý';
+        $order_data['order_date'] = date('Y-m-d H:i:s');
         $order_id = DB::table('tbl_order')->insertGetId($order_data);
 
         // insert order_details, bảng tbl_order_details
@@ -137,7 +148,7 @@ class CheckoutController extends Controller
             // lấy danh mục và thương hiệu sp vào layout
             $cate_product = DB::table('tbl_category_product')->where('category_status','1')->orderby('category_id','desc')->get();
             $brand_product = DB::table('tbl_brand')->where('brand_status','1')->orderby('brand_id','desc')->get();
-            return view('pages.checkout.handcash')->with('category',$cate_product)->with('brand',$brand_product)->with('slider',$slider);
+            return view('pages.checkout.handcash')->with('category',$cate_product)->with('brand',$brand_product)->with('slider',$slider)->with('meta_title',$meta_title);
         }
 
         //return Redirect::to('/payment');

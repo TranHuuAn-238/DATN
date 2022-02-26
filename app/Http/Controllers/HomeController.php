@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     public function index(){
+        $meta_title = "An Shop Xe Đạp";
+
         // lấy slide
         $slider = Slider::orderBy('slider_id','desc')->where('slider_status', '1')->take(4)->get();
 
@@ -28,11 +30,13 @@ class HomeController extends Controller
 
         $all_product = DB::table('tbl_product')->where('product_status','1')->orderby('product_id','desc')->limit(4)->paginate(9); // limit(4) lấy 4 sản phẩm
 
-        return view('pages.home')->with('category',$cate_product)->with('brand',$brand_product)->with('all_product',$all_product)->with('slider',$slider);
+        return view('pages.home')->with('category',$cate_product)->with('brand',$brand_product)->with('all_product',$all_product)->with('slider',$slider)->with('meta_title',$meta_title);
     }
 
     public function search(Request $request) {
         $keywords = $request->keywords_submit;
+
+        $meta_title = "Tìm kiếm sản phẩm";
 
         // lấy slide
         $slider = Slider::orderBy('slider_id','desc')->where('slider_status', '1')->take(4)->get();
@@ -49,6 +53,6 @@ class HomeController extends Controller
 
         $search_product = DB::table('tbl_product')->where('product_name', 'like', '%' . $keywords . '%')->get(); // limit(4) lấy 4 sản phẩm
  
-        return view('pages.prod.search')->with('category',$cate_product)->with('brand',$brand_product)->with('slider',$slider)->with('search_product',$search_product)->with('keywords',$keywords);
+        return view('pages.prod.search')->with('category',$cate_product)->with('brand',$brand_product)->with('slider',$slider)->with('search_product',$search_product)->with('keywords',$keywords)->with('meta_title',$meta_title);
     }
 }

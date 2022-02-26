@@ -9,6 +9,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\OrderController;
 
 
 /*
@@ -115,3 +116,7 @@ Route::post('/insert-slider', [SliderController::class, 'insert_slider']);
 Route::get('/unactive-slide/{slide_id}', [SliderController::class, 'unactive_slide']);
 Route::get('/active-slide/{slide_id}', [SliderController::class, 'active_slide']);
 Route::get('/delete-slider/{slider_id}', [SliderController::class, 'delete_slider']);
+
+// lich su don hang
+Route::get('/history', [OrderController::class, 'history']);
+Route::get('/view-history-order/{orderId}', [OrderController::class, 'view_history_order']);

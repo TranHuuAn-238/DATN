@@ -2,10 +2,11 @@
 @section('content')
 
 <section id="cart_items">
-		<div class="container">
+		<div class="container" id="showpopup">
 			
 			<div class="review-payment">
-				<h2><b>Cảm ơn bạn vì đã lựa chọn xe của chúng tôi, sản phẩm sẽ được giao đến địa chỉ giao hàng trong thời gian sớm nhất!</b></h2>
+				<h2 style="font-weight: bold;"><b>Cảm ơn bạn vì đã lựa chọn xe của chúng tôi!</b></h2>
+				<h3><i>Đơn hàng sẽ được xác nhận và giao cho bạn trong thời gian sớm nhất</i></h3>
 			</div>
             
 		</div>

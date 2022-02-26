@@ -19,11 +19,11 @@ class CartController extends Controller
 
         // $meta_desc = "Giỏ hàng của bạn"; 
         // $meta_keywords = "Giỏ hàng";
-        // $meta_title = "Giỏ hàng";
+        $meta_title = "Giỏ hàng";
         //--seo
         $cate_product = DB::table('tbl_category_product')->where('category_status','1')->orderby('category_id','desc')->get(); 
         $brand_product = DB::table('tbl_brand')->where('brand_status','1')->orderby('brand_id','desc')->get(); 
-        return view('pages.cart.show_cart')->with('category',$cate_product)->with('brand',$brand_product)->with('slider',$slider);
+        return view('pages.cart.show_cart')->with('category',$cate_product)->with('brand',$brand_product)->with('slider',$slider)->with('meta_title',$meta_title);
     }
     public function delete_product($session_id) {
         // lấy session giỏ hàng
