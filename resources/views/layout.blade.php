@@ -88,14 +88,6 @@
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
 								
-								<?php
-									$customer_name = Session::get('customer_name');							
-									if($customer_name != null) {
-								?>
-								<li><a href="#" style="color: #DC143C; font-weight: bold;"><i class="fa fa-user"></i> {{$customer_name}}</a></li>
-								<?php
-									}
-								?>
 
 								<?php
 									$customer_id = Session::get('customer_id');
@@ -131,7 +123,26 @@
 									$customer_id = Session::get('customer_id');
 									if($customer_id != null) {
 								?>
-								<li><a href="{{URL::to('/logout-checkout')}}"><i class="fa fa-lock"></i> Đăng xuất</a></li>
+								<!-- <li><a href="{{URL::to('/logout-checkout')}}"><i class="fa fa-lock"></i> Đăng xuất</a></li> -->
+								<li class="dropdown">
+									<a data-toggle="dropdown" class="dropdown-toggle" href="#" style="color: #DC143C; font-weight: bold;">
+										<i class="fa fa-user"></i>
+										<span class="username">			
+											<?php
+												$customer_name = Session::get('customer_name');		
+												if($customer_name) {
+													echo $customer_name;
+												}
+											?>
+										</span>
+										<b class="caret"></b>
+									</a>
+									<ul class="dropdown-menu extended logout">
+										<li><a href="#"><i class=" fa fa-suitcase"></i> Quản lý tài khoản</a></li>
+										<li><a href="#"><i class="fa fa-cog"></i> Cài đặt</a></li>
+										<li><a href="{{URL::to('/logout-checkout')}}"><i class="fa fa-key"></i> Đăng xuất</a></li>
+									</ul>
+								</li>
 								<?php
 									} else {
 								?>
