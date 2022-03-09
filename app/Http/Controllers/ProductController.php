@@ -45,6 +45,7 @@ class ProductController extends Controller
         // lấy dl theo thuộc tính name ở form trong view
         $data['product_name'] = $request->product_name; //$data['tên cột trong DB'] = $request->giá trị của thuộc tính name;
         $data['product_price'] = $request->product_price;
+        $data['product_quantity'] = $request->product_quantity;
         $data['product_desc'] = $request->product_desc;
         $data['product_content'] = $request->product_content;
         $data['category_id'] = $request->product_cate;
@@ -96,6 +97,7 @@ class ProductController extends Controller
         $data = array();
         $data['product_name'] = $request->product_name; //$data['tên cột trong DB'] = $request->giá trị của thuộc tính name;
         $data['product_price'] = $request->product_price;
+        $data['product_quantity'] = $request->product_quantity;
         $data['product_desc'] = $request->product_desc;
         $data['product_content'] = $request->product_content;
         $data['category_id'] = $request->product_cate;

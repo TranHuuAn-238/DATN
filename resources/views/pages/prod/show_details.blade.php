@@ -5,7 +5,7 @@
 						<div class="col-sm-5">
 							<div class="view-product">
 								<img src="{{URL::to('/public/uploads/product/'.$value->product_image)}}" alt="" />
-								<h3>ZOOM</h3>
+								<!-- <h3>ZOOM</h3> -->
 							</div>
 							<div id="similar-product" class="carousel slide" data-ride="carousel">
 								
@@ -43,11 +43,11 @@
 									<input type="hidden" value="{{$value->product_name}}" class="cart_product_name_{{$value->product_id}}">
 									<input type="hidden" value="{{$value->product_image}}" class="cart_product_image_{{$value->product_id}}">
 									<input type="hidden" value="{{$value->product_price}}" class="cart_product_price_{{$value->product_id}}">
-									<input type="hidden" value="1" class="cart_product_qty_{{$value->product_id}}">
+									<input type="hidden" value="{{$value->product_quantity}}" class="cart_product_quantity_{{$value->product_id}}">
 								<span>
 									<span>{{number_format($value->product_price) . ' VNĐ'}}</span>
 									<!-- <label>Số lượng:</label> -->
-									<input name="qty" type="hidden" min="1" value="1" disabled/>
+									<input name="qty" type="hidden" min="1" value="1" class="cart_product_qty_{{$value->product_id}}" disabled/>
 									<input name="productid_hidden" type="hidden" value="{{$value->product_id}}" />
 									<button type="button" class="btn btn-fefault cart add-to-cart" data-id_product="{{$value->product_id}}" name="add-to-cart">
 										<i class="fa fa-shopping-cart"></i>
@@ -142,7 +142,16 @@
 							<div class="tab-pane fade" id="reviews" >
 								<div class="col-sm-12">
 									<ul>
-										<li><a href=""><i class="fa fa-user"></i>User Name</a></li>
+										<li><a href=""><i class="fa fa-user"></i><b>
+											<?php
+												$customer_name = Session::get('customer_name');		
+												if($customer_name) {
+													echo $customer_name;
+												} else {
+													echo 'User Name';
+												}
+											?>
+										</b></a></li>
 										<?php date_default_timezone_set('Asia/Ho_Chi_Minh'); ?>
 										<li><a href=""><i class="fa fa-clock-o"></i><?= date('h:i a', time()); ?></a></li>
 										<li><a href=""><i class="fa fa-calendar-o"></i><?= date('d-M-Y', time()); ?></a></li>
