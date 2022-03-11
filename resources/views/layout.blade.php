@@ -17,6 +17,8 @@
 	<link href="{{asset('public/frontend/css/responsive.css')}}" rel="stylesheet">
 	<link href="{{asset('public/frontend/css/sweetalert.css')}}" rel="stylesheet">
 
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
@@ -484,6 +486,9 @@
     <script src="{{asset('public/frontend/js/jquery.prettyPhoto.js')}}"></script>
     <script src="{{asset('public/frontend/js/main.js')}}"></script>
 
+	<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+	<script src="{{asset('public/frontend/js/simple.money.format.js')}}"></script>
+
 	<script src="{{asset('public/frontend/js/sweetalert.min.js')}}"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
@@ -530,5 +535,49 @@
 		}
 	</script>
 
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$( "#slider-range" ).slider({
+				orientation: "horizontal",
+				range: true,
+				min:{{$min_price_range}},
+				max:{{$max_price_range}},
+				values: [ {{$min_price}}, {{$max_price}} ],
+				step:10000,
+				slide: function( event, ui ) {
+					$( "#amount_start" ).val(ui.values[ 0 ]).simpleMoneyFormat();
+					$( "#amount_end" ).val(ui.values[ 1 ]).simpleMoneyFormat();
+
+					$( "#start_price" ).val(ui.values[ 0 ]);
+					$( "#end_price" ).val(ui.values[ 1 ]);
+				}
+				});
+
+				$( "#amount_start" ).val($( "#slider-range" ).slider( "values", 0 )).simpleMoneyFormat();
+				$( "#amount_end" ).val($( "#slider-range" ).slider( "values", 1 )).simpleMoneyFormat();
+		});
+	</script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$( "#slider-range2" ).slider({
+				orientation: "horizontal",
+				range: true,
+				min:{{$min_price_range}},
+				max:{{$max_price_range}},
+				values: [ {{$min_price}}, {{$max_price}} ],
+				step:10000,
+				slide: function( event, ui ) {
+					$( "#amount_start2" ).val(ui.values[ 0 ]).simpleMoneyFormat();
+					$( "#amount_end2" ).val(ui.values[ 1 ]).simpleMoneyFormat();
+
+					$( "#start_price2" ).val(ui.values[ 0 ]);
+					$( "#end_price2" ).val(ui.values[ 1 ]);
+				}
+				});
+
+				$( "#amount_start2" ).val($( "#slider-range2" ).slider( "values", 0 )).simpleMoneyFormat();
+				$( "#amount_end2" ).val($( "#slider-range2" ).slider( "values", 1 )).simpleMoneyFormat();
+		});
+	</script>
 </body>
 </html>

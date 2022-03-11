@@ -92,13 +92,29 @@ class CategoryProduct extends Controller
         $cate_product = DB::table('tbl_category_product')->where('category_status','1')->orderby('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand')->where('brand_status','1')->orderby('brand_id','desc')->get();
 
-        $category_by_id = DB::table('tbl_product')->join('tbl_category_product','tbl_product.category_id','=','tbl_category_product.category_id')->where('tbl_product.category_id',$category_id)->get();
+        $min_price = DB::table('tbl_product')->min('product_price'); // biến tạm
+        $min_price_range = $min_price - 500000;
+        $max_price = DB::table('tbl_product')->max('product_price');
+        $max_price_range = $max_price + 1000000;
+        if(isset($_GET['start_price']) && isset($_GET['end_price'])) {
+            $min_price = $_GET['start_price']; // lấy dl từ thẻ input có name start_price và end_price ở form trong show_category
+            $max_price = $_GET['end_price'];
+
+            if($min_price != '' && $max_price != '') {
+                $category_by_id = DB::table('tbl_product')->join('tbl_category_product','tbl_product.category_id','=','tbl_category_product.category_id')->where('tbl_product.category_id',$category_id)->whereBetween('product_price',[$min_price,$max_price])->orderBy('product_price','asc')->paginate(9); //->appends(request()->query())
+            } else {
+                $category_by_id = DB::table('tbl_product')->join('tbl_category_product','tbl_product.category_id','=','tbl_category_product.category_id')->where('tbl_product.category_id',$category_id)->paginate(9); // ko chọn thì trả về all sản phẩm theo id category
+            }
+           
+        } else {
+            $category_by_id = DB::table('tbl_product')->join('tbl_category_product','tbl_product.category_id','=','tbl_category_product.category_id')->where('tbl_product.category_id',$category_id)->paginate(9);
+        }
         $category_name = DB::table('tbl_category_product')->where('tbl_category_product.category_id',$category_id)->limit(1)->get();
 
         foreach($category_name as $key => $val){
             $meta_title = $val->category_name;
         }
-        return view('pages.category.show_category')->with('category',$cate_product)->with('brand',$brand_product)->with('category_by_id',$category_by_id)->with('category_name',$category_name)->with('slider',$slider)->with('meta_title',$meta_title);
+        return view('pages.category.show_category')->with('category',$cate_product)->with('brand',$brand_product)->with('category_by_id',$category_by_id)->with('category_name',$category_name)->with('slider',$slider)->with('meta_title',$meta_title)->with('min_price',$min_price)->with('max_price',$max_price)->with('min_price_range',$min_price_range)->with('max_price_range',$max_price_range);
     }
 }
 

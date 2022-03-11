@@ -6,6 +6,47 @@
         <h2 class="title text-center">Danh mục {{$category_two->category_name}}</h2>
         @endforeach
 
+        <div class="row">
+            <div class="col-md-4">
+                <label for="amount">Bộ lọc giá sản phẩm (VNĐ)</label>
+                <form action="">
+                    <div id="slider-range"></div>
+                    <style type="text/css">
+                        .style-range p {
+                            float: left;
+                            width: 50%;
+                        }
+                    </style>
+                    <div class="style-range">
+                        <p><input type="text" id="amount_start" readonly style="border:0; color:blue; font-weight:bold;"></p>
+                        <p><input type="text" id="amount_end" readonly style="border:0; color:blue; font-weight:bold;"></p>
+                    </div>
+                    
+
+                    <input type="hidden" name="start_price" id="start_price">
+                    <input type="hidden" name="end_price" id="end_price">
+
+                    <?php 
+                        if(isset($_GET['start_price']) && isset($_GET['end_price'])) {
+                            $min = $_GET['start_price'];
+                            $max = $_GET['end_price'];
+                
+                            if($min != '' && $max != '') {
+                    ?>
+                    <p style="color: green;">Giá từ {{number_format($min)}} VNĐ đến {{number_format($max)}} VNĐ</p>
+                    <?php
+                            }
+                        }
+                    ?>
+                    
+
+                    <div class="clearfix"></div>
+                    <input type="submit" name="filter_price" value="Lọc giá" class="btn btn-primary">
+                    <br><br>
+                </form>
+            </div>
+        </div>
+
         @foreach($category_by_id as $key => $product)
         <a href="{{URL::to('/chi-tiet-san-pham/'.$product->product_id)}}">
         <div class="col-sm-4">
@@ -28,8 +69,9 @@
 
                             <!-- <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ</a> -->
                             <input type="button" value="Thêm vào giỏ" class="btn btn-default add-to-cart" data-id_product="{{$product->product_id}}" name="add-to-cart">
-                        </div>
+                        
                         </form>
+                        </div>
                 </div>
                 <div class="choose">
                     <ul class="nav nav-pills nav-justified">
@@ -170,4 +212,7 @@
         </div>
     </div> -->
     <!--/recommended_items-->
+    <div class="col-sm-7 text-right text-center-xs">                
+      <span> {{ $category_by_id->links("pagination::bootstrap-4") }} </span>
+    </div>
 @endsection
