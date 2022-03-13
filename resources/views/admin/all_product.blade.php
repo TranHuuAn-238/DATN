@@ -59,8 +59,8 @@
           <tr>
             <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
             <td>{{ $pro->product_name }}</td>
-            <td>{{ $pro->product_price }}</td>
-            <td>{{ $pro->product_quantity }}</td>
+            <td>{{ number_format($pro->product_price) }}</td>
+            <td>{{ number_format($pro->product_quantity) }}</td>
             <td><img src="public/uploads/product/{{ $pro->product_image }}" height="100" width="120"></td>
             <td>{{ $pro->category_name }}</td>
             <td>{{ $pro->brand_name }}</td>

@@ -172,6 +172,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="{{asset('public/backend/js/jquery.slimscroll.js')}}"></script>
 <script src="{{asset('public/backend/js/jquery.nicescroll.js')}}"></script>
 
+<script src="{{asset('public/backend/js/simple.money.format.js')}}"></script>
+<script type="text/javascript">
+    $('.price_format').simpleMoneyFormat();
+</script>
+
 <script src="{{asset('public/backend/ckeditor/ckeditor.js')}}"></script>
 <script>
     CKEDITOR.replace('descproduct');

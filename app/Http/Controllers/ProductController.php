@@ -42,10 +42,12 @@ class ProductController extends Controller
     public function save_product(Request $request) { // lấy dl từ form gửi lên vào hàm này để xử lý
         $this->AuthLogin();
         $data = array();
+        $product_price = filter_var($request->product_price, FILTER_SANITIZE_NUMBER_INT);
+        $product_quantity = filter_var($request->product_quantity, FILTER_SANITIZE_NUMBER_INT);
         // lấy dl theo thuộc tính name ở form trong view
         $data['product_name'] = $request->product_name; //$data['tên cột trong DB'] = $request->giá trị của thuộc tính name;
-        $data['product_price'] = $request->product_price;
-        $data['product_quantity'] = $request->product_quantity;
+        $data['product_price'] = $product_price;
+        $data['product_quantity'] = $product_quantity;
         $data['product_desc'] = $request->product_desc;
         $data['product_content'] = $request->product_content;
         $data['category_id'] = $request->product_cate;
@@ -95,9 +97,12 @@ class ProductController extends Controller
     public function update_product(Request $request, $product_id) {
         $this->AuthLogin();
         $data = array();
+        $product_price = filter_var($request->product_price, FILTER_SANITIZE_NUMBER_INT);
+        $product_quantity = filter_var($request->product_quantity, FILTER_SANITIZE_NUMBER_INT);
+
         $data['product_name'] = $request->product_name; //$data['tên cột trong DB'] = $request->giá trị của thuộc tính name;
-        $data['product_price'] = $request->product_price;
-        $data['product_quantity'] = $request->product_quantity;
+        $data['product_price'] = $product_price;
+        $data['product_quantity'] = $product_quantity;
         $data['product_desc'] = $request->product_desc;
         $data['product_content'] = $request->product_content;
         $data['category_id'] = $request->product_cate;

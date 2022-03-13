@@ -24,11 +24,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Giá bán</label>
-                                    <input type="text" name="product_price" class="form-control" id="exampleInputEmail1" placeholder="Tên danh mục">
+                                    <input type="text" name="product_price" class="form-control price_format" id="exampleInputEmail1" placeholder="Tên danh mục">
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Số lượng</label>
-                                    <input type="text" name="product_quantity" class="form-control" id="exampleInputEmail1" placeholder="Tên danh mục">
+                                    <input type="text" name="product_quantity" class="form-control price_format" id="exampleInputEmail1" placeholder="Tên danh mục">
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Hình ảnh sản phẩm</label>

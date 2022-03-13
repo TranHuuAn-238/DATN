@@ -25,11 +25,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Giá bán</label>
-                                    <input type="text" name="product_price" class="form-control" id="exampleInputEmail1" value="{{$pro->product_price}}">
+                                    <input type="text" name="product_price" class="form-control price_format" id="exampleInputEmail1" value="{{$pro->product_price}}">
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Số lượng</label>
-                                    <input type="text" name="product_quantity" class="form-control" id="exampleInputEmail1" value="{{$pro->product_quantity}}">
+                                    <input type="text" name="product_quantity" class="form-control price_format" id="exampleInputEmail1" value="{{$pro->product_quantity}}">
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Hình ảnh sản phẩm</label>

@@ -579,5 +579,18 @@
 				$( "#amount_end2" ).val($( "#slider-range2" ).slider( "values", 1 )).simpleMoneyFormat();
 		});
 	</script>
+	
+	<script src="{{asset('public/frontend/js/jquery.elevatezoom.min.js')}}"></script>
+	<script>
+		//<![CDATA[
+		window.addEventListener('load', function() {
+			$("#zoom_01").elevateZoom({
+				zoomType: "lens",
+				lensShape: "round",
+				lensSize: 150
+			});
+		})
+		//]]>
+	</script>
 </body>
 </html>
