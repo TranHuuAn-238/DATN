@@ -42,7 +42,7 @@ class ProductController extends Controller
     public function save_product(Request $request) { // lấy dl từ form gửi lên vào hàm này để xử lý
         $this->AuthLogin();
         $data = array();
-        $product_price = filter_var($request->product_price, FILTER_SANITIZE_NUMBER_INT);
+        $product_price = filter_var($request->product_price, FILTER_SANITIZE_NUMBER_INT); // lọc kí tự số, loại bỏ dấu ',' trong giá trước khi insert
         $product_quantity = filter_var($request->product_quantity, FILTER_SANITIZE_NUMBER_INT);
         // lấy dl theo thuộc tính name ở form trong view
         $data['product_name'] = $request->product_name; //$data['tên cột trong DB'] = $request->giá trị của thuộc tính name;
@@ -97,7 +97,7 @@ class ProductController extends Controller
     public function update_product(Request $request, $product_id) {
         $this->AuthLogin();
         $data = array();
-        $product_price = filter_var($request->product_price, FILTER_SANITIZE_NUMBER_INT);
+        $product_price = filter_var($request->product_price, FILTER_SANITIZE_NUMBER_INT); // lọc kí tự số, loại bỏ dấu ',' trong giá trước khi insert
         $product_quantity = filter_var($request->product_quantity, FILTER_SANITIZE_NUMBER_INT);
 
         $data['product_name'] = $request->product_name; //$data['tên cột trong DB'] = $request->giá trị của thuộc tính name;

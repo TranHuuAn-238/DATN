@@ -36,7 +36,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<!-- sinh thêm giá trị token ngẫu nhiên để bảo mật hơn, chống sqlinjection -->
 			{{ csrf_field() }}
 			<input type="text" class="ggg" name="admin_email" placeholder="E-MAIL" required="">
+			@foreach($errors->get('admin_email') as $message)
+				<p style="color: red;"><i>{{$message}}</i></p>
+			@endforeach
 			<input type="password" class="ggg" name="admin_password" placeholder="PASSWORD" required="">
+			@foreach($errors->get('admin_password') as $message)
+				<p style="color: red;"><i>{{$message}}</i></p>
+			@endforeach
 			<span><input type="checkbox" />Nhớ đăng nhập</span>
 			<h6><a href="#">Quên mật khẩu?</a></h6>
 				<div class="clearfix"></div>

@@ -56,7 +56,16 @@
 								</span>
 								</form>
 
-								<p><b>Trạng thái:</b> Còn hàng</p>
+								<p><b>Trạng thái: </b>
+									<?php if($value->product_quantity > 0) { 
+										echo 'Còn hàng'; 
+									} else {
+									?>
+										<i style="color: red;">Tạm hết hàng</i>
+									<?php
+									}
+									?>
+								</p>
 								<p><b>Tình trạng:</b> Hàng mới</p>
 								<p><b>Thương hiệu:</b> {{$value->brand_name}}</p>
 								<p><b>Danh mục hàng:</b> {{$value->category_name}}</p>

@@ -30,10 +30,20 @@ class AdminController extends Controller
     }
 
     public function dashboard(Request $request) { // request gửi lên từ form đến dashboard
-        $admin_email = $request->admin_email;
-        $admin_password = md5($request->admin_password);
+        // $admin_email = $request->admin_email;
+        // $admin_password = md5($request->admin_password);
+        // $result = DB::table('tbl_admin')->where('admin_email',$admin_email)->where('admin_password',$admin_password)->first(); // first() lấy 1 user thôi
 
-        $result = DB::table('tbl_admin')->where('admin_email',$admin_email)->where('admin_password',$admin_password)->first(); // first() lấy 1 user thôi
+        $data = $request->validate([
+            'admin_email' => 'required|email',
+            'admin_password' => 'required'
+        ],[
+            'admin_email.required' => 'Bạn phải nhập Email',
+            'admin_email.email' => 'Định dạng Email chưa đúng',
+            'admin_password.required' => 'Bạn phải nhập mật khẩu'
+        ]);
+
+        $result = DB::table('tbl_admin')->where('admin_email',$data['admin_email'])->where('admin_password',md5($data['admin_password']))->first(); // first() lấy 1 user thôi
         //return view('admin.dashboard');
         if($result) {
             // lấy admin_name và admin_id ở DB và trả về trang dashboard

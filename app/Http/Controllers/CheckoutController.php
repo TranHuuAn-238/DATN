@@ -35,9 +35,30 @@ class CheckoutController extends Controller
     }
 
     public function add_customer(Request $request) {
-    
+        // đăng kí tk
+        // $data = array();
+        // $data['customer_name'] = $request->customer_name;
+        // $data['customer_phone'] = $request->customer_phone;
+        // $data['customer_email'] = $request->customer_email;
+        // $data['customer_password'] = md5($request->customer_password);
+
+        $dataGetFromForm = $request->validate([
+            'customer_name' => 'required',
+            'customer_phone' => 'required',
+            'customer_email' => 'required|email',
+            'customer_password' => 'required',
+            'customer_password_repeat' => 'required|same:customer_password'
+        ],[
+            'customer_name.required' => 'Bạn phải nhập tên tài khoản',
+            'customer_email.required' => 'Bạn phải nhập Email',
+            'customer_email.email' => 'Định dạng Email chưa đúng',
+            'customer_phone.required' => 'Bạn phải nhập số điện thoại',
+            'customer_password.required' => 'Bạn phải nhập mật khẩu',
+            'customer_password_repeat.required' => 'Bạn phải xác thực lại mật khẩu',
+            'customer_password_repeat.same' => 'Mật khẩu nhập lại không khớp, hãy nhập lại'
+        ]);
         $data = array();
-        $data['customer_name'] = $request->customer_name;
+        $data['customer_name'] = $request->customer_name; // $dataGetFromForm['customer_name']
         $data['customer_phone'] = $request->customer_phone;
         $data['customer_email'] = $request->customer_email;
         $data['customer_password'] = md5($request->customer_password);
@@ -46,7 +67,7 @@ class CheckoutController extends Controller
 
         Session::put('customer_id',$customer_id); // ktra dang xuat, dang nhap
         Session::put('customer_name',$request->customer_name);
-        return Redirect::to('/checkout');
+        return Redirect::to('/trang-chu');
     }
 
     public function checkout() {
@@ -58,7 +79,13 @@ class CheckoutController extends Controller
         // lấy danh mục và thương hiệu sp vào layout
         $cate_product = DB::table('tbl_category_product')->where('category_status','1')->orderby('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand')->where('brand_status','1')->orderby('brand_id','desc')->get();
-        return view('pages.checkout.show_checkout')->with('category',$cate_product)->with('brand',$brand_product)->with('slider',$slider)->with('meta_title',$meta_title);
+
+        $cart =  Session::get('cart');
+        if($cart != null) {
+            return view('pages.checkout.show_checkout')->with('category',$cate_product)->with('brand',$brand_product)->with('slider',$slider)->with('meta_title',$meta_title);
+        } else {
+            return Redirect::to('/show-cart');
+        }
     }
 
     public function save_checkout_customer(Request $request) {
@@ -155,7 +182,7 @@ class CheckoutController extends Controller
     }
 
     public function logout_checkout() {
-        //Session::flush(); // xóa toàn bộ session
+        //Session::flush(); // xóa toàn bộ session($request->session()->flush())
         Session::forget('customer_id');
         Session::forget('shipping_id');
         Session::forget('customer_name');
@@ -163,18 +190,30 @@ class CheckoutController extends Controller
     }
 
     public function login_customer(Request $request) {
-        $email = $request->email_account;
-        $password = md5($request->password_account);
-        $result = DB::table('tbl_customer')->where('customer_email', $email)->where('customer_password',$password)->first();
+        // đăng nhập
+        // $email = $request->email_account;
+        // $password = md5($request->password_account);
+        // $result = DB::table('tbl_customer')->where('customer_email', $email)->where('customer_password',$password)->first();
 
+        $data = $request->validate([
+            'email_account' => 'required|email',
+            'password_account' => 'required'
+        ],[
+            'email_account.required' => 'Bạn phải nhập Email',
+            'email_account.email' => 'Định dạng Email chưa đúng',
+            'password_account.required' => 'Bạn phải nhập mật khẩu'
+        ]);
+        $result = DB::table('tbl_customer')->where('customer_email', $data['email_account'])->where('customer_password', md5($data['password_account']))->first();
+        
         if($result) {
             // nhập đúng tài khoản
             Session::put('customer_id',$result->customer_id); // ktra dang xuat, dang nhap(customer_id phai co khi dang nhap/dang ky)
             Session::put('customer_name',$result->customer_name);
             return Redirect::to('/trang-chu');
         } else {
-            return Redirect::to('/login-checkout');
+            return Redirect::to('/login-checkout')->with('fail','Tài khoản hoặc mật khẩu không đúng, hãy thử lại');
         }
+
         Session::save();
     }
 
