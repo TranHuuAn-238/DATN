@@ -60,7 +60,7 @@ class CartController extends Controller
                         $cart[$session]['product_qty'] = $qty;
                         $message .= '<p style="color: blue;">' . $i . '. Đã cập nhật lại số lượng sản phẩm "' . $cart[$session]['product_name'] . '" trong giỏ hàng</p>';
                     } elseif($val['session_id'] == $key && $qty > $cart[$session]['product_quantity']) {
-                        $message .= '<p style="color: red;">' . $i . '. Không thể cập nhật số lượng sản phẩm "' . $cart[$session]['product_name'] . '" <i>(Hãy chọn số lượng thấp hơn và thứ lại)</i></p>';
+                        $message .= '<p style="color: red;">' . $i . '. Không thể cập nhật số lượng sản phẩm "' . $cart[$session]['product_name'] . '" <i>(Hãy chọn số lượng thấp hơn và thử lại)</i></p>';
                     }
                 }
             }
@@ -92,7 +92,7 @@ class CartController extends Controller
                     $is_avaiable++;
                 }
             }
-            // nếu $is_avaiable vẫn = 0 tức là ko có cái session nào trùng thì tạo lại 1 cart mới và put
+            // nếu $is_avaiable vẫn = 0 tức là ko có cái id nào trùng thì tạo lại 1 cart mới và put, tức sp này chưa đc thêm vào cart
             if($is_avaiable == 0) {
                 $cart[] = array(
                     'session_id' => $session_id,

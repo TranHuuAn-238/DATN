@@ -54,7 +54,7 @@
 							<div class="form-one">
 								<form action="{{URL::to('/save-checkout-customer')}}" method="post">
 									{{ csrf_field() }}
-									<label for=""><b>Họ và tên <span style="color: red;">*</span></b></label>
+									<label for=""><b>Họ và tên người nhận <span style="color: red;">*</span></b></label>
 									<input type="text" name="shipping_name" placeholder="Tên người nhận hàng">
 									<label for=""><b>Địa chỉ email <span style="color: red;">*</span></b></label>
 									<input type="text" name="shipping_email" placeholder="Email">

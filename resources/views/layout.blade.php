@@ -508,12 +508,12 @@
 					data:{cart_product_id:cart_product_id,cart_product_name:cart_product_name,cart_product_image:cart_product_image,cart_product_price:cart_product_price,cart_product_qty:cart_product_qty,_token:_token,cart_product_quantity:cart_product_quantity},
 					success:function(data){
 						swal({
-                                title: "Đã thêm sản phẩm vào giỏ hàng",
-                                text: "Bạn có thể mua hàng tiếp hoặc tới giỏ hàng để tiến hành thanh toán",
+                                title: "Đã thêm vào giỏ hàng",
+                                text: "Bạn có thể chọn sản phẩm tiếp hoặc tới giỏ hàng để tiến hành thanh toán",
                                 showCancelButton: true,
                                 cancelButtonText: "Xem tiếp",
                                 confirmButtonClass: "btn-success",
-                                confirmButtonText: "Đi đến giỏ hàng",
+                                confirmButtonText: "Giỏ hàng",
                                 closeOnConfirm: false
                             },
                             function() {
