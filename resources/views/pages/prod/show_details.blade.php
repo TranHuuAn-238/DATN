@@ -3,32 +3,51 @@
 @foreach($product_details as $key => $value)
 <div class="product-details"><!--product-details-->
 						<div class="col-sm-5">
-							<div class="view-product">
-								<img id="zoom_01" src="{{URL::to('/public/uploads/product/'.$value->product_image)}}" data-zoom-image="{{URL::to('/public/uploads/product/'.$value->product_image)}}" alt="" />
+							<!-- <div class="view-product">
+								<img id="zoom_01" src="{{URL::to('/public/uploads/product/'.$value->product_image)}}" data-zoom-image="{{URL::to('/public/uploads/product/'.$value->product_image)}}" alt="" /> -->
 								<!-- <h3>ZOOM</h3> -->
-							</div>
-							<div id="similar-product" class="carousel slide" data-ride="carousel">
+							<!-- </div> -->
+							<!-- <div id="similar-product" class="carousel slide" data-ride="carousel"> -->
 								
 								  <!-- Wrapper for slides -->
-								    <div class="carousel-inner">
-										<div class="item active">
+								    <!-- <div class="carousel-inner">
+										<div class="item active"> -->
 										  <!-- <a href=""><img src="{{URL::to('/public/frontend/images/similar1.jpg')}}" alt=""></a>
 										  <a href=""><img src="{{URL::to('/public/frontend/images/similar2.jpg')}}" alt=""></a>
 										  <a href=""><img src="{{URL::to('/public/frontend/images/similar3.jpg')}}" alt=""></a> -->
-										</div>
+										<!-- </div> -->
 										
 										
-									</div>
+									<!-- </div> -->
 
 								  <!-- Controls -->
-								  <a class="left item-control" href="#similar-product" data-slide="prev">
+								  <!-- <a class="left item-control" href="#similar-product" data-slide="prev">
 									<i class="fa fa-angle-left"></i>
 								  </a>
 								  <a class="right item-control" href="#similar-product" data-slide="next">
 									<i class="fa fa-angle-right"></i>
 								  </a>
-							</div>
+							</div> -->
 
+							<style>
+								/* cho thumbnail */
+								.lSSlideOuter .lSPager.lSGallery img {
+									display: block;
+									height: 100px;
+									max-width: 100%;
+								}
+								li.active {
+									border: 1px solid #cccccc;
+								}
+							</style>
+							<ul id="imageGallery">
+							@foreach($gallery as $key => $gal)
+								<li data-thumb="{{asset('public/uploads/gallery/'.$gal->gallery_image)}}" data-src="{{asset('public/uploads/gallery/'.$gal->gallery_image)}}">
+									<img width="100%" height="285" src="{{asset('public/uploads/gallery/'.$gal->gallery_image)}}" alt="{{$gal->gallery_name}}" />
+								</li>
+							@endforeach
+								
+							</ul>
 						</div>
 						<div class="col-sm-7">
 							<div class="product-information"><!--/product-information-->

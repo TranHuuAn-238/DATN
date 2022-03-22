@@ -17,6 +17,10 @@
 	<link href="{{asset('public/frontend/css/responsive.css')}}" rel="stylesheet">
 	<link href="{{asset('public/frontend/css/sweetalert.css')}}" rel="stylesheet">
 
+	<link href="{{asset('public/frontend/css/lightgallery.min.css')}}" rel="stylesheet">
+	<link href="{{asset('public/frontend/css/lightslider.css')}}" rel="stylesheet">
+	<link href="{{asset('public/frontend/css/prettify.css')}}" rel="stylesheet">
+
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
 
     <!--[if lt IE 9]>
@@ -489,6 +493,10 @@
 	<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 	<script src="{{asset('public/frontend/js/simple.money.format.js')}}"></script>
 
+	<script src="{{asset('public/frontend/js/lightgallery-all.min.js')}}"></script>
+	<script src="{{asset('public/frontend/js/lightslider.js')}}"></script>
+	<script src="{{asset('public/frontend/js/prettify.js')}}"></script>
+
 	<script src="{{asset('public/frontend/js/sweetalert.min.js')}}"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
@@ -591,6 +599,25 @@
 			});
 		})
 		//]]>
+	</script>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#imageGallery').lightSlider({
+				gallery:true,
+				item:1,
+				loop:true,
+				thumbItem:3,
+				slideMargin:0,
+				enableDrag: false,
+				currentPagerPosition:'left',
+				onSliderLoad: function(el) {
+					el.lightGallery({
+						selector: '#imageGallery .lslide'
+			});
+        }   
+    });  
+  });
 	</script>
 </body>
 </html>

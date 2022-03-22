@@ -38,23 +38,25 @@
       <table class="table table-striped b-t b-light">
         <thead>
           <tr>
-            <th style="width:20px;">
+            <!-- <th style="width:20px;">
               <label class="i-checks m-b-none">
                 
               </label>
-            </th>
+            </th> -->
+            <th>STT</th>
             <th>Tên slide</th>
             <th>Hình ảnh</th>
             <th>Mô tả</th>
             <th>Hiển thị</th>
             
-            <th style="width:30px;"></th>
+            <th style="width:30px;">Xóa</th>
           </tr>
         </thead>
         <tbody>
           @foreach($all_slide as $key => $slide)
           <tr>
-            <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
+            <!-- <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td> -->
+            <td>{{ $key + 1}}</td>
             <td>{{ $slide->slider_name }}</td>
             <td><img src="public/uploads/slider/{{ $slide->slider_image }}" height="100" width="200">{{ $slide->slider_image }}</td>
             <td>{{ $slide->slider_desc }}</td>

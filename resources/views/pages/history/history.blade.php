@@ -51,7 +51,7 @@
             <td>{{$key+1}}</td>
             <td>{{ $order->customer_name }}</td>
             <td>{{ $order->order_date }}</td>
-            <td>{{ $order->order_total }}</td>     
+            <td>{{ number_format($order->order_total) }}</td>     
             <td>
               <a href="{{URL::to('/view-history-order/'.$order->order_id)}}" class="active styling-edit" ui-toggle-class="">
                 Xem chi tiết

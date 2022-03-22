@@ -8,6 +8,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 <!-- bootstrap-css -->
 <link rel="stylesheet" href="{{asset('public/backend/css/bootstrap.min.css')}}" >
+
+<meta name="csrf-token" content="{{csrf_token()}}">
+
 <!-- //bootstrap-css -->
 <!-- Custom CSS -->
 <link href="{{asset('public/backend/css/style.css')}}" rel='stylesheet' type='text/css' />
@@ -171,6 +174,116 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="{{asset('public/backend/js/scripts.js')}}"></script>
 <script src="{{asset('public/backend/js/jquery.slimscroll.js')}}"></script>
 <script src="{{asset('public/backend/js/jquery.nicescroll.js')}}"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        load_gallery();
+
+        function load_gallery() {
+            var pro_id = $('.pro_id').val();
+            var _token = $('input[name="_token"]').val();
+
+            $.ajax({
+                url:"{{url('/select-gallery')}}",
+                method:"POST",
+                data:{pro_id:pro_id,_token:_token},
+                success:function(data){
+                    $('#gallery_load').html(data);
+                }
+            });
+        }
+
+        // in lỗi dưới thẻ input file
+        $('#file').change(function(){
+            var error = '';
+            var files = $('#file')[0].files; // 
+
+            if(files.length > 6) {
+                error += '<p>Chỉ được tải tối đa 6 ảnh</p>';
+            } else if(files.length == '') {
+                error += '<p>Ảnh không được bỏ trống</p>';
+            } else if(files.size > 2000000) {
+                error += '<p>Ảnh phải có dung lượng dưới 2MB</p>';
+            }
+
+            if(error == '') {
+                // nothing
+            } else {
+                // nếu có lỗi thì in lỗi xong rồi reset lại val của thẻ input chọn ảnh về rỗng
+                $('#file').val('');
+                $('#error_gallery').html('<span class="text-danger">'+ error +'</span>');
+                return false;
+            }
+        });
+
+        // sửa tên hình ảnh theo gallery_id
+        $(document).on('blur','.edit_gal_name',function() {
+            // ~ $( ".edit_gal_name" ).blur(function() {
+            // on blur: mỗi khi click ra ngoài
+            var gal_id = $(this).data('gal_id'); // gal_id trong data-gal_id
+            var gal_text = $(this).text(); // lấy tên hình ảnh ra
+            var _token = $('input[name="_token"]').val();
+
+            $.ajax({
+                url:"{{url('/update-gallery-name')}}",
+                method:"POST",
+                data:{gal_id:gal_id,gal_text:gal_text,_token:_token},
+                success:function(data){
+                    load_gallery();
+                    $('#error_gallery').html('<span class="text-danger">Cập nhật lại tên hình ảnh thành công</span>');
+                }
+            });
+        });
+
+        // xóa hình ảnh theo gallery_id
+        $(document).on('click','.delete-gallery',function() {
+            // on blur: mỗi khi click ra ngoài
+            var gal_id = $(this).data('gal_id'); // gal_id trong data-gal_id
+            var _token = $('input[name="_token"]').val();
+
+            if(confirm('Bạn chắc chắn muốn xóa ảnh?')) {
+                $.ajax({
+                    url:"{{url('/delete-gallery')}}",
+                    method:"POST",
+                    data:{gal_id:gal_id,_token:_token},
+                    success:function(data){
+                        load_gallery();
+                        $('#error_gallery').html('<span class="text-danger">Xóa hình ảnh thành công</span>');
+                    }
+                });
+            }
+        
+        });
+
+        // sửa hình ảnh
+        $(document).on('change','.file_image',function() {
+
+            var gal_id = $(this).data('gal_id'); // gal_id trong data-gal_id
+            var image = document.getElementById("file-" + gal_id).files[0]; // truy cập hình ảnh cần sửa
+
+            var form_data = new FormData();
+            form_data.append("file", document.getElementById("file-" + gal_id).files[0]); // image
+            form_data.append("gal_id", gal_id);
+
+            $.ajax({
+                url:"{{url('/update-gallery')}}",
+                method:"POST",
+                headers:{
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data:form_data,
+                contentType:false,
+                cache:false,
+                processData:false,
+                success:function(data){
+                    load_gallery();
+                    $('#error_gallery').html('<span class="text-danger">Cập nhật hình ảnh thành công</span>');
+                }
+            });
+        
+        });
+    });
+</script>
 
 <script src="{{asset('public/backend/js/simple.money.format.js')}}"></script>
 <script type="text/javascript">

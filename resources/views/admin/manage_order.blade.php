@@ -53,7 +53,7 @@
           <tr>
             <td>{{$key + 1}}</td>
             <td>{{ $order->customer_name }}</td>
-            <td>{{ $order->order_total }}</td>
+            <td>{{ number_format($order->order_total) }}</td>
             <td>{{ $order->order_date }}</td>
             <td>{{ $order->order_status }}</td>
             

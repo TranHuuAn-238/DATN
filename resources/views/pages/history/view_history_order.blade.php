@@ -147,8 +147,8 @@
             <td>{{$key+1}}</td>
             <td>{{ $value_content->product_name }}</td>
             <td>{{ $value_content->product_sales_quantity }}</td>
-            <td>{{ $value_content->product_price }}</td>
-            <td>{{ $value_content->order_total }}</td>
+            <td>{{ number_format($value_content->product_price) }}</td>
+            <td>{{ number_format($value_content->order_total) }}</td>
             
           </tr>
         @endforeach

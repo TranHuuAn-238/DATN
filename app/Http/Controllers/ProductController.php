@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB; // sử dụng database
 use App\Models\Slider;
+use App\Models\Gallery;
+use File; // dùng class này copy file ảnh từ folder product sang gallery
 use Session;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Redirect;
@@ -55,22 +57,34 @@ class ProductController extends Controller
         $data['product_status'] = $request->product_status;
         $data['product_image'] = $request->product_image;
         $get_image = $request->file('product_image'); // người dùng chọn ảnh ko
+
+        $path = 'public/uploads/product/'; // khi thêm 1 sản phẩm thì mặc định lấy luôn 1 ảnh sản phẩm đó vào gallery
+        $path_gallery = 'public/uploads/gallery/';
         
+        // người dùng phải chọn ảnh
         if($get_image) {
             $get_name_image = $get_image->getClientOriginalName(); // lấy toàn bộ tên ảnh (cả đuôi định dạng ảnh: .jpg, .png, .jpeg...)
             $name_image = current(explode('.', $get_name_image)); // loại bỏ định dạng ảnh ở cuối trong tên, chỉ lấy tên, dùng current() để lấy phần tử đầu tiên(chỉ là tên) của mảng sau khi tách chuỗi bằng explode()
             $new_image = $name_image.rand(0,99). '.' . $get_image->getClientOriginalExtension(); // getClientOriginalExtension() lấy định dạng ảnh(jpg, png, jpeg...)
-            $get_image->move('public/uploads/product', $new_image); // move ~ move_uploaded_file
+            $get_image->move($path, $new_image); // move ~ move_uploaded_file
+            File::copy($path.$new_image,$path_gallery.$new_image); // copy ảnh từ product->gallery với tên $new_image
             $data['product_image'] = $new_image;
-            DB::table('tbl_product')->insert($data);
-            Session::put('message','Thêm mới sản phẩm thành công');
-            return Redirect::to('all-product');
+            
         }
-        // else ko thêm ảnh
-        $data['product_image'] = '';
-        DB::table('tbl_product')->insert($data);
+        $pro_id = DB::table('tbl_product')->insertGetId($data);
+        $gallery = new Gallery();
+        $gallery->gallery_image = $new_image;
+        $gallery->gallery_name = $new_image;
+        $gallery->product_id = $pro_id;
+        $gallery->save();
         Session::put('message','Thêm mới sản phẩm thành công');
         return Redirect::to('all-product');
+
+        // else ko thêm ảnh
+        // $data['product_image'] = '';
+        // DB::table('tbl_product')->insert($data);
+        // Session::put('message','Thêm mới sản phẩm thành công');
+        // return Redirect::to('all-product');
     }
 
     public function unactive_product($product_id) {
@@ -148,12 +162,17 @@ class ProductController extends Controller
         foreach($details_product as $k => $val) {
             $category_id = $val->category_id;
             $meta_title = $val->product_name; // seo
+            $product_id = $val->product_id; // để lấy gallery theo product_id
         }
+        // gallery
+        $gallery = Gallery::where('product_id',$product_id)->get();
+
+
         $related_product = DB::table('tbl_product')
         ->join('tbl_category_product','tbl_category_product.category_id','=','tbl_product.category_id')
         ->join('tbl_brand','tbl_brand.brand_id','=','tbl_product.brand_id')
         ->where('tbl_category_product.category_id',$category_id)->whereNotIn('tbl_product.product_id',[$product_id])->get();
 
-        return view('pages.prod.show_details')->with('category',$cate_product)->with('brand',$brand_product)->with('product_details',$details_product)->with('relate',$related_product)->with('slider',$slider)->with('meta_title',$meta_title);
+        return view('pages.prod.show_details')->with('category',$cate_product)->with('brand',$brand_product)->with('product_details',$details_product)->with('relate',$related_product)->with('slider',$slider)->with('meta_title',$meta_title)->with('gallery',$gallery);
     }
 }

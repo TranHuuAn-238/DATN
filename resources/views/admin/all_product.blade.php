@@ -38,12 +38,13 @@
       <table class="table table-striped b-t b-light">
         <thead>
           <tr>
-            <th style="width:20px;">
+            <!-- <th style="width:20px;">
               <label class="i-checks m-b-none">
                 
               </label>
-            </th>
+            </th> -->
             <th>Tên sản phẩm</th>
+            <th>Thư viện ảnh</th>
             <th>Giá bán</th>
             <th>Số lượng</th>
             <th>Hình ảnh</th>
@@ -51,14 +52,15 @@
             <th>Thương hiệu</th>
             <th>Hiển thị</th>
             
-            <th style="width:30px;"></th>
+            <th style="width:30px;">Quản lý</th>
           </tr>
         </thead>
         <tbody>
           @foreach($all_product as $key => $pro)
           <tr>
-            <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
+            <!-- <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td> -->
             <td>{{ $pro->product_name }}</td>
+            <td><a href="{{url('add-gallery/'.$pro->product_id)}}">Thêm thư viện ảnh</a></td>
             <td>{{ number_format($pro->product_price) }}</td>
             <td>{{ number_format($pro->product_quantity) }}</td>
             <td><img src="public/uploads/product/{{ $pro->product_image }}" height="100" width="120"></td>
