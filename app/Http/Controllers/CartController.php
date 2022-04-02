@@ -82,11 +82,11 @@ class CartController extends Controller
     }
     public function add_cart_ajax(Request $request) {
         $data = $request->all();
-        $session_id = substr(md5(microtime()),rand(0,26),5); // mỗi sản phẩm thêm vào giỏ có 1 session_id để xóa sửa sản phẩm trong giỏ sau này
+        $session_id = substr(md5(microtime()),rand(0,26),5); // mỗi sản phẩm thêm vào giỏ có 1 session_id để xóa sửa sản phẩm trong giỏ sau này, microtime() lấy timestamp của thời điểm hiện tại bao gồm cả microseconds, substr cắt chuỗi mã md5 của microtime() từ vị trí ngẫu nhiên 0-26 rand() và cắt 5 phần tử => cho ra chuỗi $session_id gồm có 5 ký tự
         $cart = Session::get('cart'); // tạo 1 session ktra Session cart tồn tại chưa
         if($cart == true) {
             $is_avaiable = 0;
-            // tồn tại session
+            // tồn tại session cart
             foreach($cart as $key => $val) {
                 if($val['product_id'] == $data['cart_product_id']) {
                     $is_avaiable++;

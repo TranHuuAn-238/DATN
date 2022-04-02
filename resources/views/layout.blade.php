@@ -200,7 +200,7 @@
 						<form action="{{URL::to('/tim-kiem')}}" method="post">
 							{{csrf_field()}}
 							<div class="search_box pull-right">
-								<input type="text" name="keywords_submit" placeholder="Tìm kiếm sản phẩm..."/>
+								<input type="text" name="keywords_submit" value="{{ $keywords ?? '' }}" placeholder="Tìm kiếm sản phẩm..."/>
 								<button type="submit" style="margin-top: 0;" name="search_items" class="btn btn-secondary btn-sm"><img src="{{asset('public/frontend/images/searchicon.png')}}" width="20" height="23" alt="" /></button>
 							</div>
 						</form>
@@ -473,8 +473,10 @@
 		<div class="footer-bottom">
 			<div class="container">
 				<div class="row" >
+					<!-- <marquee behavior="" direction="" scrollamount="3"> -->
 					<p class="pull-left">Copyright © 2022. <b>Công ty cổ phần một thành viên Hữu An</b> <br> Địa chỉ: Số 3 Đ. Cầu Giấy, Láng Thượng, Đống Đa, Hà Nội, Việt Nam</p>
 					<p class="pull-right"> Visit me <span><a target="_blank" href="https://www.facebook.com/profile.php?id=100012935530972">Tran Huu An</a></span></p>
+					<!-- </marquee> -->
 				</div>
 			</div>
 		</div>
@@ -499,8 +501,8 @@
 
 	<script src="{{asset('public/frontend/js/sweetalert.min.js')}}"></script>
 	<script type="text/javascript">
-		$(document).ready(function(){
-			$('.add-to-cart').click(function(){
+	// $(document).ready(function() {
+			$(document).on('click','.add-to-cart', function(){
 				var id = $(this).data('id_product');
 				var cart_product_id = $('.cart_product_id_' + id).val();
 				var cart_product_name = $('.cart_product_name_' + id).val();
@@ -510,28 +512,37 @@
 				var cart_product_quantity = $('.cart_product_quantity_' + id).val();
 				var _token = $('input[name="_token"]').val();
 				
-				$.ajax({
-					url: '{{url('/add-cart-ajax')}}',
-					method: 'POST',
-					data:{cart_product_id:cart_product_id,cart_product_name:cart_product_name,cart_product_image:cart_product_image,cart_product_price:cart_product_price,cart_product_qty:cart_product_qty,_token:_token,cart_product_quantity:cart_product_quantity},
-					success:function(data){
-						swal({
-                                title: "Đã thêm vào giỏ hàng",
-                                text: "Bạn có thể chọn sản phẩm tiếp hoặc tới giỏ hàng để tiến hành thanh toán",
-                                showCancelButton: true,
-                                cancelButtonText: "Xem tiếp",
-                                confirmButtonClass: "btn-success",
-                                confirmButtonText: "Giỏ hàng",
-                                closeOnConfirm: false
-                            },
-                            function() {
-                                window.location.href = "{{url('/show-cart')}}";
-                            });
+				if(parseInt(cart_product_qty) > parseInt(cart_product_quantity)) {
+					window.location.reload();
+					alert('Không thành công, hãy đặt số lượng nhỏ hơn và thử lại');
+				} else {
+					$.ajax({
+						url: '{{url('/add-cart-ajax')}}',
+						method: 'POST',
+						data:{cart_product_id:cart_product_id,cart_product_name:cart_product_name,cart_product_image:cart_product_image,cart_product_price:cart_product_price,cart_product_qty:cart_product_qty,_token:_token,cart_product_quantity:cart_product_quantity},
+						success:function(data){
+							swal({
+									title: "Đã thêm vào giỏ hàng",
+									text: "Bạn có thể chọn sản phẩm tiếp hoặc tới giỏ hàng để tiến hành thanh toán",
+									showCancelButton: true,
+									cancelButtonText: "Xem tiếp",
+									confirmButtonClass: "btn-success",
+									confirmButtonText: "Giỏ hàng",
+									closeOnConfirm: false
+								},
+								function() {
+									window.location.href = "{{url('/show-cart')}}";
+								});
 
-					}
-				});
+						}
+					});
+				}
 			});
-		});
+		// });
+			$(document).on('click','.redirect-cart', function(){
+				window.location.href = "{{url('/show-cart')}}";
+			});
+
 	</script>
 
 	<script type="text/javascript">
@@ -614,10 +625,36 @@
 				onSliderLoad: function(el) {
 					el.lightGallery({
 						selector: '#imageGallery .lslide'
+					});
+        		}   
+    		});  
+  		});
+	</script>
+
+	<!-- xem nhanh -->
+	<script type="text/javascript">
+		$('.xemnhanh').click(function() {
+			var urll = location.href; // hoặc pathname
+			var product_id = $(this).data('id_product');
+			var _token = $('input[name="_token"]').val();
+			$.ajax({
+				url:"{{url('/quickview')}}",
+				method:"POST",
+				dataType:"JSON",
+				data:{urll:urll, product_id:product_id, _token:_token},
+				success:function(data) {
+					$('#product_quickview_title').html(data.product_name);
+					$('#product_quickview_id').html(data.product_id);
+					$('#product_quickview_price').html(data.product_price);
+					$('#product_quickview_image').html(data.product_image);
+					// $('#product_quickview_gallery').html(data.product_gallery);
+					$('#product_quickview_desc').html(data.product_desc);
+					$('#product_quickview_content').html(data.product_content);
+					$('#product_quickview_value').html(data.product_quickview_value);
+					$('#product_quickview_button').html(data.product_button);
+				}
 			});
-        }   
-    });  
-  });
+		});
 	</script>
 </body>
 </html>

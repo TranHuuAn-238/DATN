@@ -87,6 +87,8 @@ Route::get('/active-product/{product_id}', [ProductController::class, 'active_pr
 Route::post('/save-product', [ProductController::class, 'save_product']);
 Route::post('/update-product/{product_id}', [ProductController::class, 'update_product']);
 
+Route::post('/quickview', [ProductController::class, 'quickview']);
+
 
 // giỏ hàng cart
 Route::post('/save-cart', [CartController::class, 'save_cart']);

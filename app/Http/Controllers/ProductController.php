@@ -23,6 +23,46 @@ class ProductController extends Controller
         }
     }
 
+    public function quickview(Request $request) {
+        $product_id = $request->product_id;
+        $product = DB::table('tbl_product')
+        ->join('tbl_category_product','tbl_category_product.category_id','=','tbl_product.category_id')
+        ->join('tbl_brand','tbl_brand.brand_id','=','tbl_product.brand_id')
+        ->where('tbl_product.product_id',$product_id)->first(); // ~ details_product
+
+        $output['product_name'] = $product->product_name;
+        $output['product_id'] = $product->product_id;
+        $output['product_desc'] = $product->product_desc;
+        $output['product_content'] = $product->product_content;
+        $output['product_price'] = number_format($product->product_price,0,',','.') . ' VNĐ';
+        // $uri = $_SERVER['HTTP_HOST']; // localhost:8080
+        // $uri = $_SERVER['QUERY_STRING'];
+        // $uri = $_SERVER['REQUEST_URI']; // /shopbanhang/chi-tiet-san-pham/8
+        $url = $request->urll;
+        if($url == 'http://localhost:8080/shopbanhang/' || $url == 'http://localhost:8080/shopbanhang/trang-chu' || $url == 'http://localhost:8080/shopbanhang/tim-kiem') {
+            // location.pathname thì /shopbanhang/ và /shopbanhang/trang-chu
+            $output['product_image'] = '<p><img width="100%" src="public/uploads/product/' . $product->product_image . '"></p>';
+        } else {
+            $output['product_image'] = '<p><img width="100%" src="../public/uploads/product/' . $product->product_image . '"></p>';
+        }
+
+        $output['product_button'] = '<button type="button" class="btn btn-fefault cart add-to-cart" data-id_product="'. $product->product_id .'" name="add-to-cart">
+                                        <i class="fa fa-shopping-cart"></i>
+                                        Mua ngay
+                                    </button>
+        ';
+        $output['product_quickview_value'] = ' 
+        <input type="hidden" value="' . $product->product_id . '" class="cart_product_id_' . $product->product_id . '">
+        <input type="hidden" value="' . $product->product_name . '" class="cart_product_name_' . $product->product_id . '">
+        <input type="hidden" value="' . $product->product_image . '" class="cart_product_image_' . $product->product_id . '">
+        <input type="hidden" value="' . $product->product_price . '" class="cart_product_price_' . $product->product_id . '">
+        <input type="hidden" value="1" class="cart_product_qty_' . $product->product_id . '">
+        <input type="hidden" value="' . $product->product_quantity . '" class="cart_product_quantity_' . $product->product_id . '">
+        ';
+
+        echo json_encode($output); // mã hóa $output thành json, trả dl về cho ajax dưới dạng json
+    }
+
     public function add_product() {
         $this->AuthLogin();
         $cate_product = DB::table('tbl_category_product')->orderby('category_id','desc')->get();
