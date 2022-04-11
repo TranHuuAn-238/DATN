@@ -135,7 +135,6 @@
             <th>Tên xe</th>
             <th>Số lượng</th>
             <th>Giá</th>
-            <th>Tổng đơn</th>
             
             <th style="width:30px;"></th>
           </tr>
@@ -148,11 +147,16 @@
             <td>{{ $value_content->product_name }}</td>
             <td>{{ $value_content->product_sales_quantity }}</td>
             <td>{{ number_format($value_content->product_price) }}</td>
-            <td>{{ number_format($value_content->order_total) }}</td>
             
           </tr>
         @endforeach
         </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3"><b>Tổng đơn <i>(Đã bao gồm phí vận chuyển):</i></b></td>
+            <td>{{ number_format($value_content->order_total) }}</td>
+          </tr>
+        </tfoot>
       </table>
     </div>
     <footer class="panel-footer">

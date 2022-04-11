@@ -56,14 +56,81 @@
 									{{ csrf_field() }}
 									<label for=""><b>Họ và tên người nhận <span style="color: red;">*</span></b></label>
 									<input type="text" name="shipping_name" placeholder="Tên người nhận hàng">
+									@error('shipping_name')
+										<p style="color: red; font-size: 15px;"><i>{{ $message }}</i></p>
+									@enderror
 									<label for=""><b>Địa chỉ email <span style="color: red;">*</span></b></label>
 									<input type="text" name="shipping_email" placeholder="Email">
+									@error('shipping_email')
+										<p style="color: red; font-size: 15px;"><i>{{ $message }}</i></p>
+									@enderror
+
+									{{-- <label for=""><b>Chọn Tỉnh / Thành <span style="color: red;">*</span></b></label>
+									<select name="calc_shipping_provinces" onchange="document.getElementById('text_content').value=this.options[this.selectedIndex].text" required="">
+										<option value="">Tỉnh / Thành phố</option>
+									</select>
+									@error('calc_shipping_provinces')
+										<p style="color: red; font-size: 15px;"><i>{{ $message }}</i></p>
+									@enderror
+									<br><br>
+									<label for=""><b>Chọn Quận / Huyện <span style="color: red;">*</span></b></label>
+									<select name="calc_shipping_district" required="">
+										<option value="">Quận / Huyện</option>
+									</select>
+									@error('calc_shipping_district')
+										<p style="color: red; font-size: 15px;"><i>{{ $message }}</i></p>
+									@enderror
+									<br><br>
+									<input class="billing_address_1" name="text_province" id="text_content" type="hidden" value="">
+									<input class="billing_address_2" name="text_district" type="hidden" value=""> --}}
+
+									
+									
+									<label><b>Chọn Tỉnh / Thành phố <span style="color: red;">*</span></b></label>
+									<select name="city" id="city" class="choose city" onchange="document.getElementById('get_city').value=this.options[this.selectedIndex].text">
+										<option value="" selected disabled hidden>--Chọn tỉnh thành--</option>
+										@foreach ($city as $key => $ci)
+											<option value="{{ $ci->matp }}">{{ $ci->name_city }}</option>
+										@endforeach			
+									</select>
+									@error('city')
+										<p style="color: red; font-size: 15px;"><i>{{ $message }}</i></p>
+									@enderror
+									<br><br>
+									<label><b>Chọn Quận / Huyện <span style="color: red;">*</span></b></label>
+									<select name="province" id="province" class="province choose" onchange="document.getElementById('get_province').value=this.options[this.selectedIndex].text">
+										<option value="" selected disabled hidden>--Chọn quận huyện--</option>				
+									</select>
+									@error('province')
+									<p style="color: red; font-size: 15px;"><i>{{ $message }}</i></p>
+									@enderror
+									<br><br>
+									<label><b>Chọn Xã / Phường <span style="color: red;">*</span></b></label>
+									<select name="wards" id="wards" class="wards" onchange="document.getElementById('get_ward').value=this.options[this.selectedIndex].text">
+										<option value="" selected disabled hidden>--Chọn xã phường--</option>				
+									</select>
+									@error('wards')
+										<p style="color: red; font-size: 15px;"><i>{{ $message }}</i></p>
+									@enderror
+									<br><br>
+									<input name="txt_city" id="get_city" type="hidden" value="">
+									<input name="txt_province" id="get_province" type="hidden" value="">
+									<input name="txt_ward" id="get_ward" type="hidden" value="">
+						
+
+									
 									<label for=""><b>Địa chỉ nhận hàng <span style="color: red;">*</span></b></label>
 									<input type="text" name="shipping_address" placeholder="Địa chỉ">
+									@error('shipping_address')
+										<p style="color: red; font-size: 15px;"><i>{{ $message }}</i></p>
+									@enderror
 									<label for=""><b>Số điện thoại <span style="color: red;">*</span></b></label>
 									<input type="text" name="shipping_phone" placeholder="Số điện thoại">
+									@error('shipping_phone')
+										<p style="color: red; font-size: 15px;"><i>{{ $message }}</i></p>
+									@enderror
 									<label for=""><b>Ghi chú đơn hàng (tuỳ chọn) </b></label>
-									<textarea name="shipping_notes" placeholder="Ghi chú về đơn hàng, ví dụ: thời gian hay chỉ dẫn địa điểm giao hàng chi tiết hơn" rows="16"></textarea>
+									<textarea name="shipping_notes" placeholder="Ghi chú về đơn hàng, ví dụ: thời gian hay chỉ dẫn địa điểm giao hàng chi tiết hơn" rows="10"></textarea>
 									<input type="submit" value="Xác nhận" name="send_order" class="btn btn-primary btn-sm">
 								</form>
 							</div>

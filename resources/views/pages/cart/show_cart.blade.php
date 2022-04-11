@@ -85,10 +85,10 @@
 								<h4 style="margin-left: 180px; margin-top: 50px;">Thông tin giá tiền</h4>
 							<ul>
 
-								<li>Tổng tiền: <span>{{number_format($total,0,',','.')}} VNĐ</span></li>
+								<li>Thành tiền: <span>{{number_format($total,0,',','.')}} VNĐ</span></li>
 								<!-- <li>Thuế <span></span></li> -->
-								<li>Phí vận chuyển <span>Free</span></li>
-								<li>Thành tiền: <span style="color: red; font-weight: bold;">{{number_format($total,0,',','.')}} VNĐ</li>
+								<li>Voucher áp dụng: <span>Chưa có</span></li>
+								<li>Tổng tiền sau giảm: <span style="color: red; font-weight: bold;">{{number_format($total,0,',','.')}} VNĐ</li>
 								<td>
 									<?php
 										$customer_id = Session::get('customer_id');

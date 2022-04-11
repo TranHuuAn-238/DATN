@@ -116,6 +116,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <li class="sub-menu">
                     <a href="javascript:;">
                         <i class="fa fa-book"></i>
+                        <span>Vận chuyển</span>
+                    </a>
+                    <ul class="sub">
+						<li><a href="{{URL::to('/delivery')}}">Quản lý phí vận chuyển</a></li>
+						
+
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-book"></i>
                         <span>Danh mục sản phẩm</span>
                     </a>
                     <ul class="sub">
@@ -174,6 +185,81 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="{{asset('public/backend/js/scripts.js')}}"></script>
 <script src="{{asset('public/backend/js/jquery.slimscroll.js')}}"></script>
 <script src="{{asset('public/backend/js/jquery.nicescroll.js')}}"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        fetch_delivery();
+        function fetch_delivery() {
+            // load thông tin tin feeship và hiển thị
+            var _token = $('input[name="_token"]').val();
+            $.ajax({
+                url: "{{url('/select-feeship')}}",
+                method: 'post',
+                data: {_token:_token},
+                success:function(data) {
+                    $('#load_delivery').html(data);
+                }
+            });
+        }
+
+        // edit feeship bắt sự kiện blur
+        $(document).on('blur','.fee_feeship_edit', function() {
+            var feeship_id = $(this).data('feeship_id'); // lấy feeship_id từ thuộc tính data
+            var fee_value =  $(this).text(); // lấy text phí vận chuyển mới sửa ra ở thẻ <td></td>
+            var _token = $('input[name="_token"]').val();
+            $.ajax({
+                url: "{{url('/update-delivery')}}",
+                method: 'post',
+                data: {feeship_id:feeship_id, fee_value:fee_value, _token:_token},
+                success:function(data) {
+                    alert('Cập nhật phí vận chuyển thành công');
+                    fetch_delivery();
+                }
+            });
+        });
+
+        // thêm 1 fee_ship
+        $('.add_delivery').click(function() {
+            var city = $('.city').val();
+            var province = $('.province').val();
+            var wards = $('.wards').val();
+            var fee_ship = $('.fee_ship').val();
+            var _token = $('input[name="_token"]').val();
+
+            $.ajax({
+                url: "{{url('/insert-delivery')}}",
+                method: 'post',
+                data: {city:city, province:province, _token:_token, wards:wards, fee_ship:fee_ship},
+                success:function(data) {
+                    alert('Thêm phí vận chuyển thành công');
+                    fetch_delivery();
+                }
+            });
+        });
+
+        // bắt sự kiện change hiện thông tin province/ward khi chọn city/province
+        $('.choose').on('change',function(){
+            var action = $(this).attr('id'); // lấy giá trị của thuộc tính id của select tỉnh/tp hoặc select quận/huyện để so sánh
+            var ma_id = $(this).val(); // lấy value trong option
+            var _token = $('input[name="_token"]').val();
+            var result = '';
+            if(action == 'city') {
+                result = 'province';
+            } else {
+                result = 'wards';
+            }
+            $.ajax({
+                url: "{{url('/select-delivery')}}",
+                method: 'post',
+                data: {action:action,ma_id:ma_id,_token:_token},
+                success:function(data) {
+                    $('#' + result).html(data);
+                }
+            });
+        });
+    });
+</script>
 
 <script type="text/javascript">
     $(document).ready(function() {

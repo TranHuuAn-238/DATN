@@ -73,10 +73,17 @@
 							<td colspan="2" class="total_area">
 							<h4 style="margin-left: 180px; margin-top: 50px;">Tổng đơn</h4>
 								<ul>
-								<li>Tổng tiền: <span>{{number_format($total,0,',','.')}} VNĐ</span></li>
+								<li>Thành tiền: <span>{{number_format($total,0,',','.')}} VNĐ</span></li>
 								<!-- <li>Thuế <span></span></li> -->
-								<li>Phí vận chuyển <span>Free</span></li>
-								<li>Thành tiền: <span style="color: red; font-weight: bold;">{{number_format($total,0,',','.')}} VNĐ</span></li>
+								<li>Phí vận chuyển: <span>
+													@php
+													if(Session::get('fee')) {
+														echo number_format(Session::get('fee'),0,',','.') . ' VNĐ';
+													}
+													@endphp
+													</span>
+								</li>
+								<li>Tổng tiền: <span style="color: red; font-weight: bold;">{{number_format(($total+Session::get('fee')),0,',','.')}} VNĐ</span></li>
 								
 								</ul>
 							</td>
@@ -109,7 +116,9 @@
 					<!-- <span>
 						<label><input type="checkbox"> Paypal</label>
 					</span> -->
-                    
+                    @foreach($errors->get('payment_option') as $message)
+						<p style="color: red;"><i>{{$message}}</i></p>
+					@endforeach
 			</div>
                     <input type="submit" value="Đặt hàng" name="send_order_place" class="btn btn-primary btn-sm" style="margin-top: -175px;">
             </form>

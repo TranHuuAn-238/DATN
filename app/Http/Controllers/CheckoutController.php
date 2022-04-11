@@ -8,7 +8,12 @@ use App\Models\Slider;
 use Session;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Redirect;
+use App\Http\Requests\PostShippingRequest; // validate shipping
 session_start();
+use App\Models\City;
+use App\Models\Province;
+use App\Models\Wards;
+use App\Models\Feeship;
 
 class CheckoutController extends Controller
 {
@@ -21,6 +26,27 @@ class CheckoutController extends Controller
         }
     }
 
+    public function select_delivery_home(Request $request) {
+        $data = $request->all();
+        if($data['action']) {
+            $output = '';
+            if($data['action'] == "city") {
+                $select_province = Province::where('matp', $data['ma_id'])->orderby('maqh','asc')->get(); // ma_id là matp
+                    $output .= '<option selected disabled hidden>--Chọn quận huyện--</option>';
+                foreach($select_province as $key => $province) {
+                    $output .= '<option value="'.$province->maqh.'">'.$province->name_quanhuyen.'</option>';
+                }
+                
+            } else {
+                $select_wards = Wards::where('maqh', $data['ma_id'])->orderby('xaid','asc')->get();
+                    $output .= '<option selected disabled hidden>--Chọn xã phường--</option>';
+                foreach($select_wards as $key => $ward) {
+                    $output .= '<option value="'.$ward->xaid.'">'.$ward->name_xaphuong.'</option>';
+                }
+            }
+        }
+        echo $output;
+    }
 
     public function login_checkout() {
         $meta_title = "Đăng nhập";
@@ -80,25 +106,48 @@ class CheckoutController extends Controller
         $cate_product = DB::table('tbl_category_product')->where('category_status','1')->orderby('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand')->where('brand_status','1')->orderby('brand_id','desc')->get();
 
+        $city = City::orderby('matp','asc')->get();
+
         $cart =  Session::get('cart');
         if($cart != null) {
-            return view('pages.checkout.show_checkout')->with('category',$cate_product)->with('brand',$brand_product)->with('slider',$slider)->with('meta_title',$meta_title);
+            return view('pages.checkout.show_checkout')->with('category',$cate_product)->with('brand',$brand_product)->with('slider',$slider)->with('meta_title',$meta_title)->with('city',$city);
         } else {
             return Redirect::to('/show-cart');
         }
     }
 
-    public function save_checkout_customer(Request $request) {
+    public function save_checkout_customer(PostShippingRequest $request) {
         $data = array();
+        // tính phí vận chuyển
+        $feeship = Feeship::where('fee_matp',$request->city)->where('fee_maqh',$request->province)->where('fee_xaid',$request->wards)->get(); // get() thì luôn tồn tại mảng(ko có phần tử thì mảng rỗng nhưng vẫn tồn tại mảng), first() nếu ko có phần tử thì sẽ ko tồn tại(là null)
+        $fee = '';
+        if($feeship) {
+            $fee_count = $feeship->count();
+            if($fee_count > 0) {
+                foreach($feeship as $key => $fee) {
+                    $data['shipping_fee'] = $fee->fee_feeship;
+                    $fee = $fee->fee_feeship;
+                }
+            } else {
+                $data['shipping_fee'] = '30000';
+                $fee = '30000';
+            }    
+        } // nếu $feeship là ->first() thì else { $data['shipping_fee'] = '30000'; $fee = '30000'; } phải ở đây và trong if ko cần foreach và ko cần $fee_count  
+
         $data['shipping_name'] = $request->shipping_name;
         $data['shipping_phone'] = $request->shipping_phone;
-        $data['shipping_email'] = $request->shipping_email;
+        $data['shipping_email'] = $request->shipping_email; 
+        $data['shipping_province'] = $request->txt_city; // $data['shipping_province'] = $request->text_province;
+        $data['shipping_district'] = $request->txt_province; // $data['shipping_district'] = $request->text_district;
+        $data['shipping_ward'] = $request->txt_ward;
         $data['shipping_notes'] = $request->shipping_notes;
-        $data['shipping_address'] = $request->shipping_address;
+        $data['shipping_address'] = $request->shipping_address . ', ' . $request->txt_ward . ', ' . $request->txt_province . ', ' . $request->txt_city . '.';
 
         $shipping_id = DB::table('tbl_shipping')->insertGetId($data); // insertGetId: insert va lay id vua insert cho vao $shipping_id de truyen qua view
 
         Session::put('shipping_id',$shipping_id);
+        Session::put('fee',$fee);
+
 
         return Redirect::to('/payment');
     }
@@ -116,6 +165,13 @@ class CheckoutController extends Controller
     }
 
     public function order_place(Request $request) {
+        // validate textbox
+        $dataGetFromForm = $request->validate([
+            'payment_option' => 'required|in:1,2' // hoặc 'required_without_all' hoặc 'required_with_all' (checkbox validate ~ radio button)
+        ],[
+            'payment_option.required' => 'Bạn phải chọn phương thức thanh toán'
+        ]);
+
         date_default_timezone_set('Asia/Ho_Chi_Minh');
 
         $meta_title = "Đặt hàng thành công";
@@ -147,7 +203,8 @@ class CheckoutController extends Controller
         $order_data['customer_id'] = Session::get('customer_id');
         $order_data['shipping_id'] = Session::get('shipping_id');
         $order_data['payment_id'] = $payment_id;
-        $order_data['order_total'] = $total;
+        $feeship = Session::get('fee');
+        $order_data['order_total'] = $total + $feeship; // tổng tiền hàng + phí vận chuyển
         $order_data['order_status'] = 'Đang chờ xử lý';
         $order_data['order_date'] = date('Y-m-d H:i:s');
         $order_id = DB::table('tbl_order')->insertGetId($order_data);
@@ -164,10 +221,11 @@ class CheckoutController extends Controller
             DB::table('tbl_order_details')->insert($order_d_data); 
         }
         if($data['payment_method'] == 1) {
-            echo "Thanh toán bằng thẻ tín dụng";
+            echo "Thanh toán bằng thẻ tín dụng - Danh sách các thẻ:";
         } else {
             Session::forget('cart'); // xóa session cart
             Session::forget('shipping_id'); // xóa luôn session thông tin nhận hàng
+            Session::forget('fee');
 
             // lấy slide
             $slider = Slider::orderBy('slider_id','desc')->where('slider_status', '1')->take(4)->get();
@@ -185,6 +243,7 @@ class CheckoutController extends Controller
         //Session::flush(); // xóa toàn bộ session($request->session()->flush())
         Session::forget('customer_id');
         Session::forget('shipping_id');
+        Session::forget('fee');
         Session::forget('customer_name');
         return Redirect::to('/login-checkout');
     }
