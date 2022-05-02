@@ -28,6 +28,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="{{asset('public/backend/js/jquery2.0.3.min.js')}}"></script>
 <script src="{{asset('public/backend/js/raphael-min.js')}}"></script>
 <script src="{{asset('public/backend/js/morris.js')}}"></script>
+
+{{-- datepicker jquery css --}}
+{{-- <link rel="stylesheet" href="{{asset('public/backend/css/jquery-ui.css')}}"> --}}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+
 </head>
 <body>
 <section id="container">
@@ -121,7 +126,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <ul class="sub">
 						<li><a href="{{URL::to('/delivery')}}">Quản lý phí vận chuyển</a></li>
 						
-
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-book"></i>
+                        <span>Mã khuyến mãi</span>
+                    </a>
+                    <ul class="sub">
+						<li><a href="{{URL::to('/insert-coupon')}}">Thêm mã khuyễn mãi</a></li>
+						<li><a href="{{URL::to('/list-coupon')}}">Danh sách mã khuyễn mãi</a></li>
                     </ul>
                 </li>
                 <li class="sub-menu">
@@ -185,6 +199,41 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="{{asset('public/backend/js/scripts.js')}}"></script>
 <script src="{{asset('public/backend/js/jquery.slimscroll.js')}}"></script>
 <script src="{{asset('public/backend/js/jquery.nicescroll.js')}}"></script>
+
+{{-- datepicker jquery js --}}
+<script src="{{asset('public/backend/js/jquery-ui.js')}}"></script>
+<script type="text/javascript">
+    $( function() {
+        $( "#datepickeraddstart" ).datepicker({
+            prevText: "Tháng trước",
+            nextText: "Tháng sau",
+            dateFormat: "yy-mm-dd",
+            dayNamesMin: ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"],
+            duration: "slow"
+        });
+        $( "#datepickeraddend" ).datepicker({
+            prevText: "Tháng trước",
+            nextText: "Tháng sau",
+            dateFormat: "yy-mm-dd",
+            dayNamesMin: ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"],
+            duration: "slow"
+        });
+        $( "#datepickereditstart" ).datepicker({
+            prevText: "Tháng trước",
+            nextText: "Tháng sau",
+            dateFormat: "yy-mm-dd",
+            dayNamesMin: ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"],
+            duration: "slow"
+        });
+        $( "#datepickereditend" ).datepicker({
+            prevText: "Tháng trước",
+            nextText: "Tháng sau",
+            dateFormat: "yy-mm-dd",
+            dayNamesMin: ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"],
+            duration: "slow"
+        });
+    } );
+</script>
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -279,10 +328,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             });
         }
 
-        // in lỗi dưới thẻ input file
+        // in lỗi dưới thẻ input file(Tải ảnh)
         $('#file').change(function(){
             var error = '';
-            var files = $('#file')[0].files; // 
+            var files = $('#file')[0].files; // lấy tệp đã chọn đầu tiên ~ .files[0] hay .get(0).files[0]
 
             if(files.length > 6) {
                 error += '<p>Chỉ được tải tối đa 6 ảnh</p>';
@@ -341,11 +390,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         
         });
 
-        // sửa hình ảnh
+        // sửa hình ảnh trong gallery theo id
         $(document).on('change','.file_image',function() {
 
             var gal_id = $(this).data('gal_id'); // gal_id trong data-gal_id
-            var image = document.getElementById("file-" + gal_id).files[0]; // truy cập hình ảnh cần sửa
+            var image = document.getElementById("file-" + gal_id).files[0]; // truy cập vào hình ảnh mới
 
             var form_data = new FormData();
             form_data.append("file", document.getElementById("file-" + gal_id).files[0]); // image
@@ -387,6 +436,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     CKEDITOR.replace('desccategory');
     CKEDITOR.replace('editdesccategory');
     CKEDITOR.replace('descslider');
+    CKEDITOR.replace('insertcoupondesc');
+    CKEDITOR.replace('editcoupondesc');
 </script>
 
 <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->

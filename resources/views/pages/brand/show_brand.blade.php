@@ -41,6 +41,7 @@
 
                     
                     <div class="clearfix"></div>
+                    {{-- submit đẩy giá trị lên url --}}
                     <input type="submit" name="filter_price" value="Lọc giá" class="btn btn-primary">
                     <br><br>
                 </form>

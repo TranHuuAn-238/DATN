@@ -6,7 +6,7 @@
 			<div class="breadcrumbs">
 				<ol class="breadcrumb">
 				  <li><a href="{{URL::to('/')}}">Trang chủ</a></li>
-				  <li class="active">Thanh toán</li>
+				  <li class="active">Thông tin nhận hàng</li>
 				</ol>
 			</div><!--/breadcrums-->
 

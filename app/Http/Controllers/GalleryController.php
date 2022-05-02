@@ -33,7 +33,7 @@ class GalleryController extends Controller
         $gal_text = $request->gal_text;
         $gallery = Gallery::find($gal_id);
         $gallery->gallery_name = $gal_text;
-        $gallery->save(); // lưu, ko cần phải redirect
+        $gallery->save(); // lưu, ko cần phải redirect do đã có load_gallery();
     }
 
     public function insert_gallery(Request $request, $pro_id) {

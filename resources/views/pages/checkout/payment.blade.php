@@ -75,6 +75,33 @@
 								<ul>
 								<li>Thành tiền: <span>{{number_format($total,0,',','.')}} VNĐ</span></li>
 								<!-- <li>Thuế <span></span></li> -->
+								<li>Mã giảm giá: 
+									<span>
+										@if (Session::get('coupon'))
+											@php
+												$cou = Session::get('coupon');
+											@endphp
+											{{-- @foreach (Session::get('coupon') as $key => $cou) --}}
+												@if($cou['coupon_condition'] == 1)
+													Giảm {{ $cou['coupon_discount'] }} % đơn
+														@php
+															$total_coupon = ($total * $cou['coupon_discount']) / 100;
+															$total = $total - $total_coupon;
+															echo '<li>Tổng giảm: <span>'. number_format($total_coupon,0,',','.') .' VNĐ</span></li>';
+														@endphp
+												@elseif($cou['coupon_condition'] == 2)
+													Giảm {{ number_format($cou['coupon_discount'],0,',','.') }} VNĐ
+													@php
+														$total_coupon = $cou['coupon_discount'];
+														$total = $total - $total_coupon;
+													@endphp	
+												@endif
+											{{-- @endforeach --}}
+										@else
+											<i>Chưa có</i>
+										@endif
+									</span>
+								</li>
 								<li>Phí vận chuyển: <span>
 													@php
 													if(Session::get('fee')) {

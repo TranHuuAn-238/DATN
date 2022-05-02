@@ -15,6 +15,7 @@
     <link href="{{asset('public/frontend/css/animate.css')}}" rel="stylesheet">
 	<link href="{{asset('public/frontend/css/main.css')}}" rel="stylesheet">
 	<link href="{{asset('public/frontend/css/responsive.css')}}" rel="stylesheet">
+	
 	<link href="{{asset('public/frontend/css/sweetalert.css')}}" rel="stylesheet">
 
 	<link href="{{asset('public/frontend/css/lightgallery.min.css')}}" rel="stylesheet">
@@ -539,6 +540,7 @@
 				}
 			});
 		// });
+			// redirect cart trong modal 
 			$(document).on('click','.redirect-cart', function(){
 				window.location.href = "{{url('/show-cart')}}";
 			});
@@ -586,15 +588,15 @@
 				values: [ {{$min_price}}, {{$max_price}} ],
 				step:10000,
 				slide: function( event, ui ) {
-					$( "#amount_start2" ).val(ui.values[ 0 ]).simpleMoneyFormat();
+					$( "#amount_start2" ).val(ui.values[ 0 ]).simpleMoneyFormat(); // input hiển thị khi slide
 					$( "#amount_end2" ).val(ui.values[ 1 ]).simpleMoneyFormat();
 
-					$( "#start_price2" ).val(ui.values[ 0 ]);
+					$( "#start_price2" ).val(ui.values[ 0 ]); // input hidden khi slide
 					$( "#end_price2" ).val(ui.values[ 1 ]);
 				}
 				});
 
-				$( "#amount_start2" ).val($( "#slider-range2" ).slider( "values", 0 )).simpleMoneyFormat();
+				$( "#amount_start2" ).val($( "#slider-range2" ).slider( "values", 0 )).simpleMoneyFormat(); // hiển thị ban đầu
 				$( "#amount_end2" ).val($( "#slider-range2" ).slider( "values", 1 )).simpleMoneyFormat();
 		});
 	</script>
@@ -634,7 +636,7 @@
 	<!-- xem nhanh -->
 	<script type="text/javascript">
 		$('.xemnhanh').click(function() {
-			var urll = location.href; // hoặc pathname
+			var urll = location.href; // hoặc pathname (lấy url hiện tại)
 			var product_id = $(this).data('id_product');
 			var _token = $('input[name="_token"]').val();
 			$.ajax({

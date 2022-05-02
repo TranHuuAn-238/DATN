@@ -67,7 +67,7 @@
             
             <th>Người nhận</th>
             <th>Địa chỉ</th>
-            <th>SĐT liên hệ</th>
+            <th>SĐT người nhận</th>
 
             
             <th style="width:30px;"></th>
@@ -134,7 +134,7 @@
             <th>STT</th>
             <th>Tên xe</th>
             <th>Số lượng</th>
-            <th>Giá</th>
+            <th>Giá (VNĐ)</th>
             
             <th style="width:30px;"></th>
           </tr>
@@ -150,10 +150,31 @@
             
           </tr>
         @endforeach
+
+        @if ($value_content->order_coupon !== null)
+          <tr>
+            <td colspan="3"><b>Mã khuyến mãi áp dụng: </b></td>
+            <td><i>
+              {{ $value_content->order_coupon }}
+            </i></td>
+          </tr>
+        @else
+        <tr>
+          <td colspan="3"><b>Mã khuyến mãi áp dụng: </b></td>
+          <td><i>
+              Không có mã
+          </i></td>
+        </tr>
+        @endif
+          
+          <tr>
+            <td colspan="3"><b>Phí vận chuyển: </b></td>
+            <td>{{ number_format($value_content->shipping_fee) }}</td>
+          </tr>
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="3"><b>Tổng đơn <i>(Đã bao gồm phí vận chuyển):</i></b></td>
+            <td colspan="3"><b>Tổng đơn: </b></td>
             <td>{{ number_format($value_content->order_total) }}</td>
           </tr>
         </tfoot>

@@ -74,6 +74,8 @@ class SliderController extends Controller
 
     public function delete_slider($slider_id) {
         $this->AuthLogin();
+        $image = DB::table('tbl_slider')->where('slider_id',$slider_id)->first();
+        unlink('public/uploads/slider/'.$image->slider_image); // xóa ảnh trong folder
         DB::table('tbl_slider')->where('slider_id',$slider_id)->delete();
         Session::put('message','Xóa slider thành công');
         return Redirect::to('manage-slider');

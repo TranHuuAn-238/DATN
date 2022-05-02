@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB; // sử dụng database
 use App\Models\Slider;
+use App\Models\Coupon;
 use Session;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Redirect;
@@ -13,6 +14,53 @@ session_start();
 
 class CartController extends Controller
 {
+    public function check_coupon(Request $request) {
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $today = date("Y-m-d");
+
+        if(Session::get('customer_id')) {
+            // người dùng đã đăng nhập ms đc phép check coupon
+            $data = $request->all();
+            $coupon = Coupon::where('coupon_code', $data['coupon'])->where('coupon_status', 1)->where('coupon_date_end', '>=', $today)->first();
+            if($coupon) {
+                // có coupon trong DB, đã đc kích hoạt và vẫn còn hạn; tiếp tục ktra xem người dùng đã sử dụng mã này chưa
+                $coupon_used =  Coupon::where('coupon_code', $data['coupon'])->where('coupon_used','LIKE','%,s'.Session::get('customer_id').'e%')->first();
+                if($coupon_used) {
+                    // đã sử dụng
+                    return redirect()->back()->with('error','Mã khuyến mãi ' . $data['coupon'] . ' đã được sử dụng, quý khách vui lòng nhập mã khác nếu có');
+                } else {
+                    // ko có $coupon_used => chưa dùng
+                    $coupon_session = Session::get('coupon');
+                    if($coupon_session) {
+                        // người dùng đã chọn 1 coupon trc đó rồi, tiếp tục chọn coupon khác
+                        $cou = array(
+                            'coupon_code' => $coupon->coupon_code,
+                            'coupon_condition' => $coupon->coupon_condition,
+                            'coupon_discount' => $coupon->coupon_discount
+                        );
+                        Session::put('coupon',$cou); // put coupon mới
+                    } else {
+                        $cou = array(
+                            'coupon_code' => $coupon->coupon_code,
+                            'coupon_condition' => $coupon->coupon_condition,
+                            'coupon_discount' => $coupon->coupon_discount
+                        );
+                        Session::put('coupon',$cou);
+                    }
+                    return redirect()->back()->with('message','Áp dụng mã giảm giá ' . $data['coupon'] . ' thành công');
+                }
+               
+            } else {
+                return redirect()->back()->with('error','Mã khuyến mãi ' . $data['coupon'] . ' không đúng hoặc đã hết hạn, vui lòng thử mã khác');
+            }
+        
+        } else {
+            // session của người dùng đã hết
+            return redirect()->back()->with('error','Quý khách vui lòng đăng nhập để tiếp tục sử dụng mã.');
+        }
+        
+    }
+
     public function show_cart(Request $request) {
         //slide
         $slider = Slider::orderBy('slider_id','DESC')->where('slider_status','1')->take(4)->get();
@@ -48,14 +96,14 @@ class CartController extends Controller
         if($cart == true) {
             $message = '';
 
-            // $data['cart_qty'] chứa value là số lượng sản phẩm ở thẻ input với key là session_id
+            // $data['cart_qty'] chứa value là số lượng mỗi sản phẩm ở thẻ input với key là session_id
             foreach($data['cart_qty'] as $key => $qty) {
                 $i = 0;
                 // mỗi session cart là 1 sản phẩm trong giỏ
                 foreach($cart as $session => $val) {
                     $i++;
 
-                    // nếu session id là giống nhau thì mới cập nhật lại số lượng
+                    // nếu session id là giống nhau thì mới cập nhật lại số lượng trong session cart
                     if($val['session_id'] == $key && $qty <= $cart[$session]['product_quantity']) {
                         $cart[$session]['product_qty'] = $qty;
                         $message .= '<p style="color: blue;">' . $i . '. Đã cập nhật lại số lượng sản phẩm "' . $cart[$session]['product_name'] . '" trong giỏ hàng</p>';
@@ -67,7 +115,7 @@ class CartController extends Controller
             Session::put('cart',$cart); // đặt lại giá trị cart mới sau khi update
             return redirect()->back()->with('message',$message);
         } else {
-            return redirect()->back()->with('message','Cập nhật số lượng sản phẩm trong giỏ hàng thất bại');
+            return redirect()->back()->with('message','Không có sản phẩm, cập nhật số lượng sản phẩm trong giỏ hàng thất bại');
         }
     }
     public function delete_all_product()
@@ -77,6 +125,7 @@ class CartController extends Controller
             //Session::destroy();
             Session::forget('cart'); // xóa session cart
             Session::forget('shipping_id'); // xóa luôn session thông tin nhận hàng
+            Session::forget('coupon'); // xóa session coupon
             return redirect()->back()->with('message','Đã xóa giỏ hàng');
         }
     }

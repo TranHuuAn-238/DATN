@@ -47,7 +47,7 @@ class DeliveryController extends Controller
                             <tbody>
                             ';
                         foreach($feeship as $key => $fee) {
-                            $url = "http://localhost:8080/shopbanhang/delete-fee/$fee->fee_id";
+                            $url = "http://localhost:8080/shopbanhang/delete-fee/$fee->fee_id"; // /shopbanhang/delete-fee/$fee->fee_id ; delete-fee/$fee->fee_id
                             $output .= '
                                 <tr>
                                     <td>'.$fee->city->name_city.'</td>

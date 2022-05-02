@@ -40,7 +40,7 @@ class ProductController extends Controller
         // $uri = $_SERVER['REQUEST_URI']; // /shopbanhang/chi-tiet-san-pham/8
         $url = $request->urll;
         if($url == 'http://localhost:8080/shopbanhang/' || $url == 'http://localhost:8080/shopbanhang/trang-chu' || $url == 'http://localhost:8080/shopbanhang/tim-kiem') {
-            // location.pathname thì /shopbanhang/ và /shopbanhang/trang-chu
+            // nếu dùng location.pathname thì /shopbanhang/ và /shopbanhang/trang-chu
             $output['product_image'] = '<p><img width="100%" src="public/uploads/product/' . $product->product_image . '"></p>';
         } else {
             $output['product_image'] = '<p><img width="100%" src="../public/uploads/product/' . $product->product_image . '"></p>';
@@ -51,6 +51,7 @@ class ProductController extends Controller
                                         Mua ngay
                                     </button>
         ';
+        // product_quickview_value: thông tin sp để thêm vào giỏ
         $output['product_quickview_value'] = ' 
         <input type="hidden" value="' . $product->product_id . '" class="cart_product_id_' . $product->product_id . '">
         <input type="hidden" value="' . $product->product_name . '" class="cart_product_name_' . $product->product_id . '">
@@ -60,7 +61,7 @@ class ProductController extends Controller
         <input type="hidden" value="' . $product->product_quantity . '" class="cart_product_quantity_' . $product->product_id . '">
         ';
 
-        echo json_encode($output); // mã hóa $output thành json, trả dl về cho ajax dưới dạng json
+        echo json_encode($output); // mã hóa $output thành json, trả dl về cho ajax dưới dạng json ~ return response()->json(['...' => ...]);
     }
 
     public function add_product() {
@@ -84,7 +85,7 @@ class ProductController extends Controller
     public function save_product(Request $request) { // lấy dl từ form gửi lên vào hàm này để xử lý
         $this->AuthLogin();
         $data = array();
-        $product_price = filter_var($request->product_price, FILTER_SANITIZE_NUMBER_INT); // lọc kí tự số, loại bỏ dấu ',' trong giá trước khi insert
+        $product_price = filter_var($request->product_price, FILTER_SANITIZE_NUMBER_INT); // lọc kí tự số, loại bỏ dấu ',' trong giá(do price_format) trước khi insert
         $product_quantity = filter_var($request->product_quantity, FILTER_SANITIZE_NUMBER_INT);
         // lấy dl theo thuộc tính name ở form trong view
         $data['product_name'] = $request->product_name; //$data['tên cột trong DB'] = $request->giá trị của thuộc tính name;
@@ -107,7 +108,7 @@ class ProductController extends Controller
             $name_image = current(explode('.', $get_name_image)); // loại bỏ định dạng ảnh ở cuối trong tên, chỉ lấy tên, dùng current() để lấy phần tử đầu tiên(chỉ là tên) của mảng sau khi tách chuỗi bằng explode()
             $new_image = $name_image.rand(0,99). '.' . $get_image->getClientOriginalExtension(); // getClientOriginalExtension() lấy định dạng ảnh(jpg, png, jpeg...)
             $get_image->move($path, $new_image); // move ~ move_uploaded_file
-            File::copy($path.$new_image,$path_gallery.$new_image); // copy ảnh từ product->gallery với tên $new_image
+            File::copy($path.$new_image,$path_gallery.$new_image); // copy ảnh từ product -> gallery với tên $new_image
             $data['product_image'] = $new_image;
             
         }
@@ -169,6 +170,11 @@ class ProductController extends Controller
             $name_image = current(explode('.', $get_name_image)); // loại bỏ định dạng ảnh ở cuối trong tên, chỉ lấy tên, dùng current() để lấy phần tử đầu tiên(chỉ là tên) của mảng sau khi tách chuỗi bằng explode()
             $new_image = $name_image.rand(0,99). '.' . $get_image->getClientOriginalExtension(); // getClientOriginalExtension() lấy định dạng ảnh(jpg, png, jpeg...)
             $get_image->move('public/uploads/product', $new_image); // move ~ move_uploaded_file
+
+            // xóa ảnh cũ
+            $pro_image =  DB::table('tbl_product')->where('product_id',$product_id)->first();
+            unlink('public/uploads/product/'.$pro_image->product_image);
+
             $data['product_image'] = $new_image;
             DB::table('tbl_product')->where('product_id',$product_id)->update($data);
             Session::put('message','Cập nhật sản phẩm thành công');

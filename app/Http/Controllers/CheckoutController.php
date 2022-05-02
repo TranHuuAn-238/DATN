@@ -14,6 +14,7 @@ use App\Models\City;
 use App\Models\Province;
 use App\Models\Wards;
 use App\Models\Feeship;
+use App\Models\Coupon;
 
 class CheckoutController extends Controller
 {
@@ -31,7 +32,7 @@ class CheckoutController extends Controller
         if($data['action']) {
             $output = '';
             if($data['action'] == "city") {
-                $select_province = Province::where('matp', $data['ma_id'])->orderby('maqh','asc')->get(); // ma_id là matp
+                $select_province = Province::where('matp', $data['ma_id'])->orderby('maqh','asc')->get(); // ma_id là matp của tp đã chọn
                     $output .= '<option selected disabled hidden>--Chọn quận huyện--</option>';
                 foreach($select_province as $key => $province) {
                     $output .= '<option value="'.$province->maqh.'">'.$province->name_quanhuyen.'</option>';
@@ -203,8 +204,30 @@ class CheckoutController extends Controller
         $order_data['customer_id'] = Session::get('customer_id');
         $order_data['shipping_id'] = Session::get('shipping_id');
         $order_data['payment_id'] = $payment_id;
+
+        $get_coupon = Session::get('coupon');
+        if($get_coupon) {
+            // có dùng coupon
+            $cou_code = $get_coupon['coupon_code'];
+            $coupon = Coupon::where('coupon_code', $cou_code)->first();
+            $coupon->coupon_time = $coupon->coupon_time - 1; // cập nhật lại số lượng coupon sau khi áp dụng
+            $coupon->coupon_used = $coupon->coupon_used . ',s' . Session::get('customer_id') . 'e'; // đánh dấu mã này đã đc user này sử dụng - 1 khách hàng chỉ đc dùng mã 1 lần duy nhất
+            $coupon->save();
+            
+            if($get_coupon['coupon_condition'] == 1) {
+                $total_coupon = ($total * $get_coupon['coupon_discount']) / 100;
+    
+            } elseif($get_coupon['coupon_condition'] == 2) {
+                $total_coupon = $get_coupon['coupon_discount'];
+    
+            }
+            $order_data['order_coupon'] = $get_coupon['coupon_code'];
+        } else {
+            $total_coupon = 0;
+        }   
+
         $feeship = Session::get('fee');
-        $order_data['order_total'] = $total + $feeship; // tổng tiền hàng + phí vận chuyển
+        $order_data['order_total'] = $total + $feeship - $total_coupon; // tổng tiền hàng + phí vận chuyển - giảm giá
         $order_data['order_status'] = 'Đang chờ xử lý';
         $order_data['order_date'] = date('Y-m-d H:i:s');
         $order_id = DB::table('tbl_order')->insertGetId($order_data);
@@ -226,6 +249,7 @@ class CheckoutController extends Controller
             Session::forget('cart'); // xóa session cart
             Session::forget('shipping_id'); // xóa luôn session thông tin nhận hàng
             Session::forget('fee');
+            Session::forget('coupon');
 
             // lấy slide
             $slider = Slider::orderBy('slider_id','desc')->where('slider_status', '1')->take(4)->get();
@@ -244,6 +268,7 @@ class CheckoutController extends Controller
         Session::forget('customer_id');
         Session::forget('shipping_id');
         Session::forget('fee');
+        Session::forget('coupon');
         Session::forget('customer_name');
         return Redirect::to('/login-checkout');
     }
