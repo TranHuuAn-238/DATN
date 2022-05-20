@@ -39,7 +39,7 @@ class ProductController extends Controller
         // $uri = $_SERVER['QUERY_STRING'];
         // $uri = $_SERVER['REQUEST_URI']; // /shopbanhang/chi-tiet-san-pham/8
         $url = $request->urll;
-        if($url == 'http://localhost:8080/shopbanhang/' || $url == 'http://localhost:8080/shopbanhang/trang-chu' || $url == 'http://localhost:8080/shopbanhang/tim-kiem') {
+        if($url == 'http://localhost:8080/shopbanhang/' || $url == 'http://localhost:8080/shopbanhang/trang-chu' || $url == 'http://localhost:8080/shopbanhang/tim-kiem' || $url == 'http://localhost:8080/shopbanhang/trang-chu?page=1' || $url == 'http://localhost:8080/shopbanhang/trang-chu?page=2') {
             // nếu dùng location.pathname thì /shopbanhang/ và /shopbanhang/trang-chu
             $output['product_image'] = '<p><img width="100%" src="public/uploads/product/' . $product->product_image . '"></p>';
         } else {
@@ -187,6 +187,8 @@ class ProductController extends Controller
     }
     public function delete_product($product_id) {
         $this->AuthLogin();
+        $pro_image = DB::table('tbl_product')->where('product_id',$product_id)->first();
+        unlink('public/uploads/product/'.$pro_image->product_image); // xóa ảnh trong folder
         DB::table('tbl_product')->where('product_id',$product_id)->delete();
         Session::put('message','Xóa sản phẩm thành công');
         return Redirect::to('all-product');

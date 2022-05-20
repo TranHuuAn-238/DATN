@@ -26,7 +26,7 @@ class DeliveryController extends Controller
         $this->AuthLogin();
         $data = $request->all();
         $fee_ship = Feeship::find($data['feeship_id']);
-        $fee_value = rtrim($data['fee_value'], '.'); //
+        $fee_value = rtrim($data['fee_value'], '.'); // cắt bỏ dấu . trong fee_value nếu có
         $fee_ship->fee_feeship = $fee_value;
         $fee_ship->save();
     }

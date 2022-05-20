@@ -55,12 +55,12 @@
 								<form action="{{URL::to('/save-checkout-customer')}}" method="post">
 									{{ csrf_field() }}
 									<label for=""><b>Họ và tên người nhận <span style="color: red;">*</span></b></label>
-									<input type="text" name="shipping_name" placeholder="Tên người nhận hàng">
+									<input type="text" name="shipping_name" value="{{ old('shipping_name') }}" placeholder="Tên người nhận hàng">
 									@error('shipping_name')
 										<p style="color: red; font-size: 15px;"><i>{{ $message }}</i></p>
 									@enderror
 									<label for=""><b>Địa chỉ email <span style="color: red;">*</span></b></label>
-									<input type="text" name="shipping_email" placeholder="Email">
+									<input type="text" name="shipping_email" value="{{ old('shipping_email') }}" placeholder="Email">
 									@error('shipping_email')
 										<p style="color: red; font-size: 15px;"><i>{{ $message }}</i></p>
 									@enderror
@@ -120,12 +120,12 @@
 
 									
 									<label for=""><b>Địa chỉ nhận hàng <span style="color: red;">*</span></b></label>
-									<input type="text" name="shipping_address" placeholder="Địa chỉ">
+									<input type="text" name="shipping_address" value="{{ old('shipping_address') }}" placeholder="Địa chỉ">
 									@error('shipping_address')
 										<p style="color: red; font-size: 15px;"><i>{{ $message }}</i></p>
 									@enderror
 									<label for=""><b>Số điện thoại <span style="color: red;">*</span></b></label>
-									<input type="text" name="shipping_phone" placeholder="Số điện thoại">
+									<input type="text" name="shipping_phone" value="{{ old('shipping_phone') }}" placeholder="Số điện thoại">
 									@error('shipping_phone')
 										<p style="color: red; font-size: 15px;"><i>{{ $message }}</i></p>
 									@enderror

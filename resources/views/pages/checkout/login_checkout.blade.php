@@ -17,7 +17,7 @@
 									@endphp
 								</div>
 							@endif
-							<input type="text" name="email_account" placeholder="Email đăng nhập" />
+							<input type="text" value="{{ old('email_account') }}" name="email_account" placeholder="Email đăng nhập" />
 							@foreach($errors->get('email_account') as $message)
 								<p style="color: red;"><i>{{$message}}</i></p>
 							@endforeach
@@ -41,15 +41,15 @@
 						<h2><b>Đăng kí ngay!</b></h2>
 						<form action="{{URL::to('/add-customer')}}" method="post">
 							{{ csrf_field() }}
-							<input type="text" name="customer_name" placeholder="Tên tài khoản"/>
+							<input type="text" name="customer_name" value="{{ old('customer_name') }}" placeholder="Tên tài khoản"/>
 							@foreach($errors->get('customer_name') as $message)
 								<p style="color: red;"><i>{{$message}}</i></p>
 							@endforeach
-							<input type="email" name="customer_email" placeholder="Email"/>
+							<input type="email" name="customer_email" value="{{ old('customer_email') }}" placeholder="Email"/>
 							@foreach($errors->get('customer_email') as $message)
 								<p style="color: red;"><i>{{$message}}</i></p>
 							@endforeach
-							<input type="text" name="customer_phone" placeholder="Số điện thoại"/>
+							<input type="text" name="customer_phone" value="{{ old('customer_phone') }}" placeholder="Số điện thoại"/>
 							@foreach($errors->get('customer_phone') as $message)
 								<p style="color: red;"><i>{{$message}}</i></p>
 							@endforeach

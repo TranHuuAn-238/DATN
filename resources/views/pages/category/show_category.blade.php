@@ -49,7 +49,7 @@
 
         @foreach($category_by_id as $key => $product)
         <a href="{{URL::to('/chi-tiet-san-pham/'.$product->product_id)}}">
-        <div class="col-sm-4">
+        <div class="col-sm-4" style="height: 440px;">
             <div class="product-image-wrapper">
 
                 <div class="single-products">
