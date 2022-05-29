@@ -15,6 +15,7 @@ use App\Models\Province;
 use App\Models\Wards;
 use App\Models\Feeship;
 use App\Models\Coupon;
+use Mail;
 
 class CheckoutController extends Controller
 {
@@ -189,7 +190,8 @@ class CheckoutController extends Controller
 
         // insert hình thức thanh toán(payment method), bảng tbl_payment
         $data = array();
-        $data['payment_method'] = $request->payment_option;
+        $payment_option = $request->payment_option;
+        $data['payment_method'] = $payment_option;
         $data['payment_status'] = 'Đang chờ xử lý';
         $payment_id = DB::table('tbl_payment')->insertGetId($data); // insertGetId: insert va lay id vua insert cho vao $payment_id de truyen qua view
 
@@ -229,7 +231,8 @@ class CheckoutController extends Controller
         $feeship = Session::get('fee');
         $order_data['order_total'] = $total + $feeship - $total_coupon; // tổng tiền hàng + phí vận chuyển - giảm giá
         $order_data['order_status'] = 'Đang chờ xử lý';
-        $order_data['order_date'] = date('Y-m-d H:i:s');
+        $or_date = date('Y-m-d H:i:s');
+        $order_data['order_date'] = $or_date;
         $order_id = DB::table('tbl_order')->insertGetId($order_data);
 
         // insert order_details, bảng tbl_order_details
@@ -246,17 +249,26 @@ class CheckoutController extends Controller
         if($data['payment_method'] == 1) {
             echo "Thanh toán bằng thẻ tín dụng - Danh sách các thẻ:";
         } else {
-            Session::forget('cart'); // xóa session cart
-            Session::forget('shipping_id'); // xóa luôn session thông tin nhận hàng
-            Session::forget('fee');
-            Session::forget('coupon');
-
             // lấy slide
             $slider = Slider::orderBy('slider_id','desc')->where('slider_status', '1')->take(4)->get();
 
             // lấy danh mục và thương hiệu sp vào layout
             $cate_product = DB::table('tbl_category_product')->where('category_status','1')->orderby('category_id','desc')->get();
             $brand_product = DB::table('tbl_brand')->where('brand_status','1')->orderby('brand_id','desc')->get();
+
+            // send mail
+            $shipping = DB::table('tbl_shipping')->where('shipping_id', Session::get('shipping_id'))->first();
+            $shipping_email = $shipping->shipping_email;
+            $customer_name = Session::get('customer_name');
+            Mail::send('pages.mail.order_mail', compact('cart', 'shipping', 'get_coupon','total_coupon', 'or_date', 'customer_name', 'payment_option'), function($email) use($shipping_email, $customer_name) {
+                $email->subject('Thông tin đơn hàng');
+                $email->to($shipping_email, $customer_name);
+            });
+
+            Session::forget('cart'); // xóa session cart
+            Session::forget('shipping_id'); // xóa luôn session thông tin nhận hàng
+            Session::forget('fee');
+            Session::forget('coupon');
             return view('pages.checkout.handcash')->with('category',$cate_product)->with('brand',$brand_product)->with('slider',$slider)->with('meta_title',$meta_title);
         }
 
