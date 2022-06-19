@@ -48,9 +48,9 @@
 							<a class="btn btn-primary" href="">Continue</a>
 						</div>
 					</div> -->
-					<div class="col-sm-12 clearfix">
+					<div class="col-sm-12 clearfix" style="margin-left: 175px">
 						<div class="bill-to">
-							<p><b>Thông tin nhận hàng</b></p>
+							<p style="padding-left: 200px"><b>Thông tin nhận hàng</b></p>
 							<div class="form-one">
 								<form action="{{URL::to('/save-checkout-customer')}}" method="post">
 									{{ csrf_field() }}
@@ -131,7 +131,7 @@
 									@enderror
 									<label for=""><b>Ghi chú đơn hàng (tuỳ chọn) </b></label>
 									<textarea name="shipping_notes" placeholder="Ghi chú về đơn hàng, ví dụ: thời gian hay chỉ dẫn địa điểm giao hàng chi tiết hơn" rows="10"></textarea>
-									<input type="submit" value="Xác nhận" name="send_order" class="btn btn-primary btn-sm">
+									<input type="submit" value="XÁC NHẬN" name="send_order" class="btn btn-primary btn-sm" style="width: 50%; height: 50px; margin-left:25%; font-weight: bold; font-size: 15px; color: yellow; border-radius: 25px;">
 								</form>
 							</div>
 							<!-- <div class="form-two">

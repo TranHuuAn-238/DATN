@@ -163,7 +163,13 @@ class CheckoutController extends Controller
         // lấy danh mục và thương hiệu sp vào layout
         $cate_product = DB::table('tbl_category_product')->where('category_status','1')->orderby('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand')->where('brand_status','1')->orderby('brand_id','desc')->get();
-        return view('pages.checkout.payment')->with('category',$cate_product)->with('brand',$brand_product)->with('slider',$slider)->with('meta_title',$meta_title);
+
+        $shipping = Session::get('shipping_id');
+        if($shipping) {
+            return view('pages.checkout.payment')->with('category',$cate_product)->with('brand',$brand_product)->with('slider',$slider)->with('meta_title',$meta_title);
+        }
+        return Redirect::to('/checkout');
+       
     }
 
     public function order_place(Request $request) {

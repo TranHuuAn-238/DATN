@@ -12,7 +12,7 @@
 
 			
 			<div class="review-payment">
-				<h2><b>Xác nhận thanh toán</b></h2>
+				<h2 align="center"><b>Xác nhận thanh toán</b></h2>
 			</div>
             <div class="table-responsive cart_info" style="width: 1055px;">
 			<form action="{{url('/update-cart')}}" method="POST">
@@ -147,7 +147,7 @@
 						<p style="color: red;"><i>{{$message}}</i></p>
 					@endforeach
 			</div>
-                    <input type="submit" value="Đặt hàng" name="send_order_place" class="btn btn-primary btn-sm" style="margin-top: -175px;">
+                    <input type="submit" value="ĐẶT HÀNG" name="send_order_place" class="btn btn-primary btn-sm" style="margin-top: -175px; width: 15%; height: 50px; margin-left: 7%; font-weight: bold; font-size: 15px; color: yellow; border-radius: 25px;">
             </form>
 		</div>
 	</section> <!--/#cart_items-->

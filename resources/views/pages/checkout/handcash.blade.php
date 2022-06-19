@@ -5,9 +5,9 @@
 		<div class="container" id="showpopup">
 			
 			<div class="review-payment">
-				<h2 style="font-weight: bold;"><b>Cảm ơn bạn vì đã lựa chọn xe của chúng tôi!</b></h2>
+				<h2 style="font-weight: bold; margin-left: 125px;"><b>Cảm ơn bạn vì đã lựa chọn xe của chúng tôi!</b></h2>
 				<h3><i>Đơn hàng sẽ được xác nhận và giao cho bạn trong thời gian sớm nhất</i></h3>
-				<a href="{{URL::to('/trang-chu')}}" class="btn btn-info" style="text-transform: uppercase;"><b>Về trang chủ</b></a>
+				<a href="{{URL::to('/trang-chu')}}" class="btn btn-info" style="text-transform: uppercase; margin-left: 250px;"><b>Về trang chủ</b></a>
 			</div>
             
 		</div>
