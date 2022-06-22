@@ -516,6 +516,9 @@
 				if(parseInt(cart_product_qty) > parseInt(cart_product_quantity)) {
 					window.location.reload();
 					alert('Không thành công, hãy đặt số lượng nhỏ hơn và thử lại');
+				} else if(parseInt(cart_product_qty) < 0) {
+					window.location.reload();
+					alert('Không thành công, số lượng sản phẩm phải lớn hơn 1');
 				} else {
 					$.ajax({
 						url: '{{url('/add-cart-ajax')}}',

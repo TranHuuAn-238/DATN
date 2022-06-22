@@ -340,4 +340,33 @@ class CheckoutController extends Controller
         $manager_order_by_id = view('admin.view_order')->with('order_by_id',$order_by_id);
         return view('admin_layout')->with('admin.view_order', $manager_order_by_id);
     }
+
+    public function accept_order($orderId)
+    {
+        $this->AuthLogin();
+        DB::table('tbl_order')->where('tbl_order.order_id', $orderId)->update(['order_status'=>'Đã xác nhận']);
+        Session::put('message','Xác nhận đơn hàng thành công');
+        // update lại số lượng
+        $order_by_id = DB::table('tbl_order')->where('tbl_order.order_id', $orderId)
+        ->join('tbl_customer','tbl_order.customer_id','=','tbl_customer.customer_id')
+        ->join('tbl_shipping','tbl_order.shipping_id','=','tbl_shipping.shipping_id')
+        ->join('tbl_order_details','tbl_order.order_id','=','tbl_order_details.order_id')
+        ->select('tbl_order.*','tbl_customer.*','tbl_shipping.*','tbl_order_details.*')->get();
+        $product = DB::table('tbl_product')->get();
+        foreach($order_by_id as $key => $val) {
+            foreach($product as $k => $v) {
+                if($val->product_id === $v->product_id) {
+                    DB::table('tbl_product')->where('tbl_product.product_id', $v->product_id)->update(['product_quantity'=>$v->product_quantity-$val->product_sales_quantity]);
+                }
+            }
+        }
+        return Redirect::to('manage-order');
+    }
+    public function cancel_order($orderId)
+    {
+        $this->AuthLogin();
+        DB::table('tbl_order')->where('tbl_order.order_id', $orderId)->update(['order_status'=>'Đã hủy']);
+        Session::put('message','Đơn hàng đã hủy');
+        return Redirect::to('manage-order');
+    }
 }

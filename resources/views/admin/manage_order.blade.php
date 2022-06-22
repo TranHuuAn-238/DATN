@@ -43,7 +43,7 @@
             <th>Tổng đơn</th>
             <th>Thời gian đặt</th>
             <th>Tình trạng</th>
-            <th>Hiển thị</th>
+            <th>Quản lý đơn | Tình trạng</th>
             
             <th style="width:30px;"></th>
           </tr>
@@ -63,6 +63,13 @@
               </a>
               <a onclick="return confirm('Bạn chắc chắn muốn xóa đơn hàng có mã {{ $order->order_id }}?')" href="{{URL::to('/delete-order/'.$order->order_id)}}" class="active styling-edit" ui-toggle-class="">  
                 <i class="fa fa-times text-danger text"></i>
+              </a>
+              |
+              <a onclick="return confirm('Xác nhận đơn hàng có mã {{ $order->order_id }}?')" href="{{URL::to('/accept-order/'.$order->order_id)}}" class="active styling-edit" ui-toggle-class="">  
+                <i class="fa fa-check"></i>
+              </a>
+              <a onclick="return confirm('Bạn chắc chắn muốn hủy đơn hàng có mã {{ $order->order_id }}?')" href="{{URL::to('/cancel-order/'.$order->order_id)}}" class="active styling-edit" ui-toggle-class="">  
+                <i class="fa fa-ban"></i>
               </a>
             </td>
           </tr>

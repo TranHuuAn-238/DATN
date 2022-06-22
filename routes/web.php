@@ -132,6 +132,8 @@ Route::post('/select-delivery-home', [CheckoutController::class, 'select_deliver
 // order
 Route::get('/manage-order', [CheckoutController::class, 'manage_order']);
 Route::get('/view-order/{orderId}', [CheckoutController::class, 'view_order']);
+Route::get('/accept-order/{orderId}', [CheckoutController::class, 'accept_order']);
+Route::get('/cancel-order/{orderId}', [CheckoutController::class, 'cancel_order']);
 
 // banner
 Route::get('/manage-slider', [SliderController::class, 'manage_slider']);
