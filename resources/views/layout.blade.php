@@ -520,7 +520,7 @@
 					window.location.reload();
 					alert('Không thành công, vui lòng nhập số lượng');
 				} else if(parseInt(cart_product_qty) <= 0) {
-				g	window.location.reload();
+					window.location.reload();
 					alert('Không thành công, số lượng sản phẩm tối thiểu là 1');
 				} else {
 					$.ajax({
