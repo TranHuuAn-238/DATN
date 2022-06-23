@@ -516,9 +516,12 @@
 				if(parseInt(cart_product_qty) > parseInt(cart_product_quantity)) {
 					window.location.reload();
 					alert('Không thành công, hãy đặt số lượng nhỏ hơn và thử lại');
-				} else if(parseInt(cart_product_qty) < 0) {
+				} else if(!parseInt(cart_product_qty)) {
 					window.location.reload();
-					alert('Không thành công, số lượng sản phẩm phải lớn hơn 1');
+					alert('Không thành công, vui lòng nhập số lượng');
+				} else if(parseInt(cart_product_qty) <= 0) {
+				g	window.location.reload();
+					alert('Không thành công, số lượng sản phẩm tối thiểu là 1');
 				} else {
 					$.ajax({
 						url: '{{url('/add-cart-ajax')}}',

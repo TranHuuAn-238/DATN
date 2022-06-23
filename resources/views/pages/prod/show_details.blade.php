@@ -66,7 +66,7 @@
 								<span>
 									<span>{{number_format($value->product_price) . ' VNĐ'}}</span>
 									<label>Số lượng:</label>
-									<input name="qty" type="number" min="1" value="1" class="cart_product_qty_{{$value->product_id}}"/>
+									<input name="qty" type="number" min="1" value="1" class="cart_product_qty_{{$value->product_id}}" required/>
 									<input name="productid_hidden" type="hidden" value="{{$value->product_id}}" />
 									<button type="button" class="btn btn-fefault cart add-to-cart" data-id_product="{{$value->product_id}}" name="add-to-cart">
 										<i class="fa fa-shopping-cart"></i>
